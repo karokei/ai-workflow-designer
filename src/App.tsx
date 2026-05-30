@@ -17,6 +17,10 @@ export function App() {
     progress,
     isLoading,
     resetProgress,
+    toggleLesson,
+    saveNote,
+    saveQuizResult,
+    saveChecklist,
   } = useProgress();
 
   const { toggleTheme, isDark } = useTheme();
@@ -31,6 +35,17 @@ export function App() {
 
   // Selected view: 'overview' (Lộ trình), 'curriculum' (Học tập), 'search' (Tìm kiếm), 'profile' (Cá nhân - chỉ cho mobile)
   const [currentView, setCurrentView] = useState<'overview' | 'curriculum' | 'search' | 'profile'>('overview');
+
+  // Active Phase and Lesson states
+  const [selectedPhaseId, setSelectedPhaseId] = useState<number>(0);
+  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
+
+  // Sync selectedPhaseId with progress.lastActivePhase when loaded
+  useEffect(() => {
+    if (!isLoading && progress && progress.lastActivePhase !== undefined) {
+      setSelectedPhaseId(progress.lastActivePhase);
+    }
+  }, [isLoading, progress.lastActivePhase]);
 
   // Total seconds cumulative (saved total + active timer)
   const cumulativeSeconds = progress.studyTime.totalSeconds + (timerRunning ? timerSeconds : 0);
@@ -90,9 +105,39 @@ export function App() {
 
       {/* Main Content Viewport */}
       <main className="flex-1 pb-20 lg:pb-6 max-w-7xl w-full mx-auto px-4 lg:px-6 mt-4">
-        {currentView === 'overview' && <OverviewView />}
-        {currentView === 'curriculum' && <CurriculumView />}
-        {currentView === 'search' && <SearchView />}
+        {currentView === 'overview' && (
+          <OverviewView
+            progress={progress}
+            onSelectPhase={(phaseId) => {
+              setSelectedPhaseId(phaseId);
+              setSelectedLessonId(null);
+              setCurrentView('curriculum');
+            }}
+          />
+        )}
+        {currentView === 'curriculum' && (
+          <CurriculumView
+            progress={progress}
+            selectedPhaseId={selectedPhaseId}
+            selectedLessonId={selectedLessonId}
+            onSelectPhase={setSelectedPhaseId}
+            onSelectLesson={setSelectedLessonId}
+            toggleLesson={toggleLesson}
+            saveNote={saveNote}
+            saveQuizResult={saveQuizResult}
+            saveChecklist={saveChecklist}
+          />
+        )}
+        {currentView === 'search' && (
+          <SearchView
+            progress={progress}
+            onSelectLesson={(phaseId, lessonId) => {
+              setSelectedPhaseId(phaseId);
+              setSelectedLessonId(lessonId);
+              setCurrentView('curriculum');
+            }}
+          />
+        )}
         
         {/* Mobile Profile View Tab */}
         {currentView === 'profile' && (
