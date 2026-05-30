@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary — Indigo */
+    --mika-p50:  #eef2ff;
+    --mika-p100: #e0e7ff;
+    --mika-p200: #c7d2fe;
+    --mika-p300: #a5b4fc;
+    --mika-p400: #818cf8;
+    --mika-p500: #6366f1;
+    --mika-p600: #4f46e5;
+    --mika-p700: #4338ca;
+    --mika-p800: #3730a3;
+
+    /* Accent — Emerald */
+    --mika-a50:  #ecfdf5;
+    --mika-a500: #10b981;
+    --mika-a600: #059669;
+    --mika-a700: #047857;
+
+    /* Neutrals — Slate (Light Theme Default) */
+    --mika-n0:   #ffffff;
+    --mika-n50:  #f8fafc;
+    --mika-n100: #f1f5f9;
+    --mika-n200: #e2e8f0;
+    --mika-n300: #cbd5e1;
+    --mika-n400: #94a3b8;
+    --mika-n500: #64748b;
+    --mika-n600: #475569;
+    --mika-n700: #334155;
+    --mika-n800: #1e293b;
+    --mika-n900: #0f172a;
+
+    /* Semantic Tokens (Light mode) */
+    --bg:             var(--mika-n50);
+    --bg-card:        var(--mika-n0);
+    --bg-secondary:   var(--mika-n100);
+    --border:         var(--mika-n200);
+    --border-light:   var(--mika-n100);
+    --text-primary:   var(--mika-n800);
+    --text-secondary: var(--mika-n500);
+    --text-muted:     var(--mika-n400);
+
+    /* Border Radius */
+    --r-sm: 8px;
+    --r-md: 12px;
+    --r-lg: 16px;
+    --r-xl: 20px;
+    --r-2xl: 24px;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, .05);
+    --shadow-sm: 0 1px 4px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .04);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, .08);
+    --shadow-lg: 0 12px 40px rgba(0, 0, 0, .12);
+    --shadow-focus: 0 0 0 3px rgba(99, 102, 241, .15);
+  }
+
+  /* Dark mode overrides (Activated via .dark class on html) */
+  html.dark {
+    --bg:             var(--mika-n900);
+    --bg-card:        var(--mika-n800);
+    --bg-secondary:   #1e293b;
+    --border:         #334155;
+    --border-light:   #1e293b;
+    --text-primary:   var(--mika-n100);
+    --text-secondary: var(--mika-n400);
+    --text-muted:     var(--mika-n500);
+    --shadow-focus: 0 0 0 3px rgba(129, 140, 248, .2);
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Be Vietnam Pro', 'Inter', system-ui, -apple-system, sans-serif;
+    transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+  }
+}
+
+@layer utilities {
+  /* Scanlines Effect */
+  .scanlines {
+    position: relative;
+  }
+  .scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.05) 2px,
+      rgba(0, 0, 0, 0.05) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+  html.dark .scanlines::after {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.02) 2px,
+      rgba(255, 255, 255, 0.02) 4px
+    );
+  }
+
+  /* Flicker Animation */
+  .flicker:hover {
+    animation: mika-flicker 0.15s ease-in-out 3;
+  }
+
+  /* Pulse Glow Animation */
+  .pulse-glow {
+    animation: mika-pulseGlow 2s ease-in-out infinite;
+  }
+}
+
+@keyframes mika-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes mika-pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(79, 70, 229, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(79, 70, 229, 0.5); }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
