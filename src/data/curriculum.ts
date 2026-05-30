@@ -1,5 +1,5 @@
 // src/data/curriculum.ts
-import { Phase } from '@/types/curriculum';
+import type { Phase } from '@/types/curriculum';
 import { phaseThemes } from './themes';
 
 export const CURRICULUM: Phase[] = [

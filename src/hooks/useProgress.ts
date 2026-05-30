@@ -1,6 +1,6 @@
 // src/hooks/useProgress.ts
 import { useState, useEffect, useRef } from 'react';
-import { UserProgress, QuizResult } from '@/types/progress';
+import type { UserProgress, QuizResult } from '@/types/progress';
 import localforage from 'localforage';
 
 const STORAGE_KEY = 'aiwfd:progress';

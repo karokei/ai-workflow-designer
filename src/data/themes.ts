@@ -1,5 +1,5 @@
 // src/data/themes.ts
-import { ThemeToken } from '@/types/curriculum';
+import type { ThemeToken } from '@/types/curriculum';
 
 export const phaseThemes: Record<number, ThemeToken> = {
   0: {
