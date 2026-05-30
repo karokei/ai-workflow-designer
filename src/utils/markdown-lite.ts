@@ -26,9 +26,12 @@ export function parseMarkdownLite(text: string): string {
   // 4. Parse inline code `code`
   parsed = parsed.replace(/`(.*?)`/g, '<code class="px-1.5 py-0.5 rounded bg-bg-secondary text-text-primary font-mono text-xs border border-border">$1</code>');
 
-  // 5. Clean parsed HTML using DOMPurify
+  // 5. Parse markdown links [label](url)
+  parsed = parsed.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-mika-p600 hover:underline" target="_blank" rel="noopener noreferrer">$1</a>');
+
+  // 6. Clean parsed HTML using DOMPurify
   return DOMPurify.sanitize(parsed, {
-    ALLOWED_TAGS: ['strong', 'em', 'code'],
-    ALLOWED_ATTR: ['class'],
+    ALLOWED_TAGS: ['strong', 'em', 'code', 'a'],
+    ALLOWED_ATTR: ['class', 'href', 'target', 'rel'],
   });
 }
