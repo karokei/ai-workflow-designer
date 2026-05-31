@@ -479,6 +479,16 @@ export const phase1: Phase = {
                 "Kết quả xuất ra luôn là JSON hợp lệ, không chứa ký tự thừa.",
                 "Đã kiểm thử thành công trên 5 ca kiểm thử thực tế khác nhau."
               ]
+            },
+            {
+              type: "challenge",
+              id: "c1-3-7",
+              title: "Thiết kế System Prompt Trợ lý Chốt đơn JSON",
+              question: "Hãy thiết kế một **System Prompt** cho chatbot AI đóng vai trò là trợ lý chốt đơn hàng của cửa hàng quần áo. Yêu cầu:\n1. Phân tích tin nhắn thô của khách hàng để trích xuất: **Tên khách hàng**, **Số điện thoại**, **Địa chỉ**, và **Danh sách sản phẩm** (mỗi sản phẩm có tên, size, màu, số lượng).\n2. Ràng buộc AI phải phản hồi ở định dạng **JSON có cấu trúc** chính xác.\n3. Ngăn chặn AI tự ý bịa thêm thông tin ngoài những gì khách hàng cung cấp.",
+              language: "prompt",
+              initialCode: `# SYSTEM PROMPT - AI ORDER ASSISTANT\nVai trò: Bạn là trợ lý chốt đơn của cửa hàng...\nNhiệm vụ: ...`,
+              expectedKeywords: ["JSON", "cấu trúc", "Role", "Constraints", "ví dụ"],
+              referenceAnswer: `# SYSTEM PROMPT - AI ORDER ASSISTANT\nRole: Bạn là trợ lý AI tự động hóa chốt đơn hàng B2C cho cửa hàng thời trang.\nConstraints:\n- Chỉ trích xuất thông tin khách hàng cung cấp trong hội thoại. Không tự ý suy diễn hoặc giả định.\n- Nếu thiếu thông tin bắt buộc (số điện thoại hoặc địa chỉ), hãy ghi giá trị null.\n- Phản hồi DUY NHẤT một đối tượng JSON chuẩn, không có markdown blocks và không có văn bản giải thích.\n\nOutput Format (JSON):\n{\n  "customer": {\n    "name": "string or null",\n    "phone": "string or null",\n    "address": "string or null"\n  },\n  "items": [\n    {\n      "name": "string",\n      "size": "string or null",\n      "color": "string or null",\n      "quantity": 1\n    }\n  ]\n}\n\nFew-shot Example:\nInput: "Chào shop, mình muốn lấy 1 váy lụa đỏ size M, giao về 123 Nguyễn Trãi, sđt mình 0901234567 nhé, tên Linh."\nOutput:\n{\n  "customer": {\n    "name": "Linh",\n    "phone": "0901234567",\n    "address": "123 Nguyễn Trãi"\n  },\n  "items": [\n    {\n      "name": "váy lụa",\n      "size": "M",\n      "color": "đỏ",\n      "quantity": 1\n    }\n  ]\n}`
             }
           ]
         }

@@ -9,6 +9,7 @@ import { HUDFloatingTimer } from '@/components/shared/HUDFloatingTimer';
 import { OverviewView } from '@/components/views/OverviewView';
 import { CurriculumView } from '@/components/views/CurriculumView';
 import { SearchView } from '@/components/views/SearchView';
+import { SandboxView } from '@/components/views/SandboxView';
 import { CURRICULUM } from '@/data/curriculum';
 import { Award, Clock, Moon, Sun, Trash2 } from 'lucide-react';
 
@@ -21,6 +22,7 @@ export function App() {
     saveNote,
     saveQuizResult,
     saveChecklist,
+    saveChallengeResult,
   } = useProgress();
 
   const { toggleTheme, isDark } = useTheme();
@@ -33,8 +35,8 @@ export function App() {
     formattedTime: timerFormatted,
   } = useTimer();
 
-  // Selected view: 'overview' (Lộ trình), 'curriculum' (Học tập), 'search' (Tìm kiếm), 'profile' (Cá nhân - chỉ cho mobile)
-  const [currentView, setCurrentView] = useState<'overview' | 'curriculum' | 'search' | 'profile'>('overview');
+  // Selected view: 'overview' (Lộ trình), 'curriculum' (Học tập), 'search' (Tìm kiếm), 'profile' (Cá nhân - chỉ cho mobile), 'sandbox' (Giả lập)
+  const [currentView, setCurrentView] = useState<'overview' | 'curriculum' | 'search' | 'profile' | 'sandbox'>('overview');
 
   // Active Phase and Lesson states
   const [selectedPhaseId, setSelectedPhaseId] = useState<number>(0);
@@ -126,6 +128,7 @@ export function App() {
             saveNote={saveNote}
             saveQuizResult={saveQuizResult}
             saveChecklist={saveChecklist}
+            saveChallengeResult={saveChallengeResult}
           />
         )}
         {currentView === 'search' && (
@@ -137,6 +140,9 @@ export function App() {
               setCurrentView('curriculum');
             }}
           />
+        )}
+        {currentView === 'sandbox' && (
+          <SandboxView />
         )}
         
         {/* Mobile Profile View Tab */}

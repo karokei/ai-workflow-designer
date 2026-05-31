@@ -20,7 +20,8 @@ export type ContentBlock =
   | ChecklistBlock
   | StepsBlock
   | TableBlock
-  | DividerBlock;
+  | DividerBlock
+  | ChallengeBlock;
 
 export interface TextBlock {
   type: "text";
@@ -92,6 +93,17 @@ export interface TableBlock {
 
 export interface DividerBlock {
   type: "divider";
+}
+
+export interface ChallengeBlock {
+  type: "challenge";
+  id: string;
+  title: string;
+  question: string;
+  language: "prompt" | "javascript" | "python" | "sql";
+  initialCode: string;
+  expectedKeywords: string[];
+  referenceAnswer: string;
 }
 
 export interface Lesson {

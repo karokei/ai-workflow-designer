@@ -6,8 +6,10 @@ import { ChecklistBlock } from '@/components/content-blocks/ChecklistBlock';
 import { StepsBlock } from '@/components/content-blocks/StepsBlock';
 import { TableBlock } from '@/components/content-blocks/TableBlock';
 import { ListBlock } from '@/components/content-blocks/ListBlock';
+import { ChallengeBlock } from '@/components/content-blocks/ChallengeBlock';
 import { parseMarkdownLite } from '@/utils/markdown-lite';
 import type { ContentBlock } from '@/types/curriculum';
+import type { ChallengeResult } from '@/types/progress';
 
 interface ContentBlockRendererProps {
   block: ContentBlock;
@@ -17,6 +19,8 @@ interface ContentBlockRendererProps {
   onSelectQuizAnswer?: (answerIndex: number) => void;
   savedChecklistState?: boolean[];
   onSelectChecklistItem?: (index: number) => void;
+  savedChallengeResult?: ChallengeResult;
+  onSaveChallengeResult?: (result: ChallengeResult) => Promise<void>;
 }
 
 export function ContentBlockRenderer({
@@ -27,6 +31,8 @@ export function ContentBlockRenderer({
   onSelectQuizAnswer,
   savedChecklistState = [],
   onSelectChecklistItem,
+  savedChallengeResult,
+  onSaveChallengeResult,
 }: ContentBlockRendererProps) {
   
   if (block.type === 'text') {
@@ -72,6 +78,16 @@ export function ContentBlockRenderer({
         quizIndex={quizIndex}
         savedAnswer={savedQuizAnswer}
         onSelectAnswer={onSelectQuizAnswer}
+      />
+    );
+  }
+
+  if (block.type === 'challenge') {
+    return (
+      <ChallengeBlock
+        block={block}
+        savedResult={savedChallengeResult}
+        onSaveResult={onSaveChallengeResult || (async () => {})}
       />
     );
   }

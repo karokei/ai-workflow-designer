@@ -7,6 +7,14 @@ export interface QuizResult {
   attempts: number;
 }
 
+export interface ChallengeResult {
+  codeAnswer: string;
+  score: number; // 0–100
+  feedback: string; // Critique review text
+  status: "pass" | "fail";
+  gradedAt: string;
+}
+
 export interface StudySession {
   date: string; // "2026-01-15"
   seconds: number;
@@ -18,6 +26,7 @@ export interface UserProgress {
   lessonNotes: Record<string, string>; // lessonId → note text
   quizResults: Record<string, QuizResult>; // lessonId → quiz result
   checklistProgress: Record<string, boolean[]>; // lessonId → boolean array
+  challengeResults: Record<string, ChallengeResult>; // lessonId → challenge result
   studyTime: {
     totalSeconds: number;
     sessions: StudySession[];

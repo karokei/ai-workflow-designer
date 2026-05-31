@@ -1,6 +1,6 @@
 // src/hooks/useProgress.ts
 import { useState, useEffect, useRef } from 'react';
-import type { UserProgress, QuizResult } from '@/types/progress';
+import type { UserProgress, QuizResult, ChallengeResult } from '@/types/progress';
 import localforage from 'localforage';
 
 const STORAGE_KEY = 'aiwfd:progress';
@@ -12,6 +12,7 @@ const defaultProgress: UserProgress = {
   lessonNotes: {},
   quizResults: {},
   checklistProgress: {},
+  challengeResults: {},
   studyTime: {
     totalSeconds: 0,
     sessions: [],
@@ -110,6 +111,18 @@ export function useProgress() {
     await saveProgress(newProgress);
   };
 
+  const saveChallengeResult = async (lessonId: string, result: ChallengeResult) => {
+    const newProgress = {
+      ...progress,
+      challengeResults: {
+        ...progress.challengeResults || {},
+        [lessonId]: result,
+      },
+      lastActiveAt: new Date().toISOString(),
+    };
+    await saveProgress(newProgress);
+  };
+
   const saveChecklist = async (lessonId: string, checklistState: boolean[]) => {
     const newProgress = {
       ...progress,
@@ -132,6 +145,7 @@ export function useProgress() {
     toggleLesson,
     saveNote,
     saveQuizResult,
+    saveChallengeResult,
     saveChecklist,
     resetProgress,
   };

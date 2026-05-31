@@ -215,6 +215,16 @@ return processedItems;`
                 "Dữ liệu đầu ra được lọc chính xác theo điều kiện phức tạp.",
                 "Export luồng n8n của bạn ra tệp phase-3/n8n_code_nodes.json."
               ]
+            },
+            {
+              type: "challenge",
+              id: "c3-2-2",
+              title: "Lọc Đơn hàng trên n8n Code Node",
+              question: "Hãy viết một đoạn mã **JavaScript** chạy trong **n8n Code Node** để lọc và biến đổi danh sách đơn hàng. Yêu cầu:\n1. Đầu vào `$input.all()` chứa mảng các đơn hàng dạng `{ json: { orderId, status, value, customer } }`.\n2. Lọc chỉ giữ lại các đơn hàng có `status` bằng `'completed'` **VÀ** `value` lớn hơn `500000`.\n3. Trả về mảng các đối tượng đúng chuẩn của n8n (mỗi phần tử có thuộc tính `json`).",
+              language: "javascript",
+              initialCode: `// n8n Code Node - JS Lọc đơn hàng\nconst items = $input.all();\n\n// Hãy viết code lọc và trả về mảng kết quả tại đây...\nconst filtered = items;\n\nreturn filtered;`,
+              expectedKeywords: ["json", "filter", "completed", "500000", "return"],
+              referenceAnswer: `// n8n Code Node - JS Lọc đơn hàng\nconst items = $input.all();\n\n// Lọc các đơn hàng hoàn tất và có giá trị trên 500,000đ\nconst filtered = items.filter(item => {\n  const order = item.json;\n  return order.status === 'completed' && order.value > 500000;\n});\n\nreturn filtered;`
             }
           ]
         }

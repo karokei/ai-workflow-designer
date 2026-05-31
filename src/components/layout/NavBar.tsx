@@ -4,8 +4,8 @@ import type { UserProgress } from '@/types/progress';
 import { CURRICULUM } from '@/data/curriculum';
 
 interface NavBarProps {
-  currentView: 'curriculum' | 'overview' | 'search';
-  setCurrentView: (view: 'curriculum' | 'overview' | 'search') => void;
+  currentView: 'curriculum' | 'overview' | 'search' | 'sandbox';
+  setCurrentView: (view: 'curriculum' | 'overview' | 'search' | 'sandbox') => void;
   isDark: boolean;
   toggleTheme: () => void;
   progress: UserProgress;
@@ -84,6 +84,16 @@ export function NavBar({
           }`}
         >
           🔍 Tìm kiếm
+        </button>
+        <button
+          onClick={() => setCurrentView('sandbox')}
+          className={`flex items-center gap-2 px-4 py-1.5 rounded-r-sm text-xs font-medium transition-all duration-200 ${
+            currentView === 'sandbox'
+              ? 'bg-mika-p600 text-white shadow-sm'
+              : 'text-text-sec hover:text-text-pri hover:bg-bg-card/50'
+          }`}
+        >
+          ⚡ Giả lập
         </button>
       </div>
 

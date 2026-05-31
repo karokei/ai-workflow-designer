@@ -1,9 +1,9 @@
 // src/components/layout/BottomNav.tsx
-import { Compass, BookOpen, Search, User } from 'lucide-react';
+import { Compass, BookOpen, Search, User, Zap } from 'lucide-react';
 
 interface BottomNavProps {
-  currentView: 'curriculum' | 'overview' | 'search' | 'profile';
-  setCurrentView: (view: 'curriculum' | 'overview' | 'search' | 'profile') => void;
+  currentView: 'curriculum' | 'overview' | 'search' | 'profile' | 'sandbox';
+  setCurrentView: (view: 'curriculum' | 'overview' | 'search' | 'profile' | 'sandbox') => void;
 }
 
 export function BottomNav({ currentView, setCurrentView }: BottomNavProps) {
@@ -77,6 +77,30 @@ export function BottomNav({ currentView, setCurrentView }: BottomNavProps) {
           Tìm kiếm
         </span>
         {currentView === 'search' && (
+          <div className="absolute bottom-0 w-8 h-[2px] bg-mika-p500 rounded-full shadow-[0_0_8px_#6366f1]" />
+        )}
+      </button>
+
+      {/* Tab: Giả lập */}
+      <button
+        onClick={() => setCurrentView('sandbox')}
+        className="flex flex-col items-center justify-center flex-1 h-full gap-0.5 text-center relative transition-all duration-200"
+      >
+        <Zap
+          className={`w-5 h-5 transition-transform duration-200 ${
+            currentView === 'sandbox'
+              ? 'text-mika-p500 scale-110 filter drop-shadow-[0_0_6px_rgba(99,102,241,0.5)]'
+              : 'text-text-secondary hover:text-text-primary'
+          }`}
+        />
+        <span
+          className={`text-[9px] font-semibold tracking-tight transition-colors duration-200 ${
+            currentView === 'sandbox' ? 'text-mika-p500 font-bold' : 'text-text-muted'
+          }`}
+        >
+          Giả lập
+        </span>
+        {currentView === 'sandbox' && (
           <div className="absolute bottom-0 w-8 h-[2px] bg-mika-p500 rounded-full shadow-[0_0_8px_#6366f1]" />
         )}
       </button>
