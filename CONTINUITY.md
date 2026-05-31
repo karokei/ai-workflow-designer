@@ -2,14 +2,14 @@
 
 ## Current Session Details
 - **Date**: 2026-05-31
-- **Focus**: Karo Kit & Superpowers Integration - Task 3
-- **Status**: Completed Task 3, Karo Kit & Superpowers Integration fully completed! 🎉
+- **Focus**: Refactoring Content Blocks (Task 4) & Integration Validation
+- **Status**: Completed Task 4, 100% of curriculum content blocks modularized successfully! 🎉
 
 ## Tasks Checklist
 
 ### Task 1: Cài đặt Karo Kit & Khởi tạo Tác tử
 - [x] Step 1: Viết test kiểm thử ban đầu (Failing Test)
-- [x] Step 2: Chạy kiểm thử để xác nhận thất bại (Expected to fail)
+- [x] Step 2: Chạy kiểm thử để xác nhận thất bại
 - [x] Step 3: Cài đặt karo-kit và chạy khởi tạo
 - [x] Step 4: Cấu hình learnings.json và global_rules.md
 - [x] Step 5: Chạy lại kiểm thử một phần
@@ -27,11 +27,26 @@
 - [x] Step 3: Chạy lại toàn bộ kiểm thử để xác nhận vượt qua (Expected to PASS)
 - [x] Step 4: Commit hoàn tất tích hợp
 
-## Learnings & Progress
-- `karo-kit` version 1.5.1 successfully installed as a development dependency.
-- `npx karo init` executed correctly, bootstrapping `.agent` folders and setup local agent tools.
-- Successfully migrated 14 modular skills from Superpowers library to local `skills/` directory.
-- Verified that all core skills (`skills/using-superpowers/`, `skills/brainstorming/`, `skills/test-driven-development/`, `skills/systematic-debugging/`) are present.
-- Configured agent instruction files `CLAUDE.md` and `GEMINI.md` in the project root to enforce Superpowers workflow, modular skill compliance, working memory management, and long-term learnings.
-- Ran Vitest integration test suite `src/utils/agent-integration.test.ts` and achieved **ALL PASS** 🎉 state, verifying the integrity of the whole integration.
+### Task 4: Tái cấu trúc Content Blocks thành Component độc lập
+- [x] Step 1: Viết bộ unit test TDD ban đầu (`blocks.test.tsx`) (Expected FAIL)
+- [x] Step 2: Xây dựng component `CalloutBlock.tsx`
+- [x] Step 3: Xây dựng component `ChecklistBlock.tsx`
+- [x] Step 4: Xây dựng component `StepsBlock.tsx`
+- [x] Step 5: Xây dựng component `TableBlock.tsx`
+- [x] Step 6: Xây dựng component `ListBlock.tsx` (phục vụ bullets & numbered)
+- [x] Step 7: Tích hợp các component mới vào `ContentBlockRenderer.tsx`
+- [x] Step 8: Chạy lại toàn bộ kiểm thử để xác định trạng thái PASS 🎉
+- [x] Step 9: Chạy lệnh build kiểm tra lỗi TypeScript & CSS
+- [x] Step 10: Commit hoàn thành tái cấu trúc
 
+## Learnings & Progress
+- Tái cấu trúc thành công `ContentBlockRenderer.tsx` giúp giảm từ 275 dòng code xuống còn 89 dòng, tăng tính mô-đun hóa và độ ổn định đáng kể.
+- 5 component mới (`CalloutBlock`, `ChecklistBlock`, `StepsBlock`, `TableBlock`, `ListBlock`) được thiết kế độc lập, đóng gói hoàn hảo logic styling Mika và parse Markdown-lite qua DOMPurify.
+- Viết 7 bài unit test bao phủ toàn bộ hành vi component mới, nâng tổng số test lên **32/32 tests** vượt qua thành công (**ALL PASS**).
+- Gói ứng dụng biên dịch thành công (`npm run build`) không gặp lỗi strict TypeScript.
+
+## Next Focus: Path A (Curriculum Completeness & Lazy Loading)
+1. **Chia nhỏ tệp giáo trình**: Di chuyển dữ liệu sang cấu trúc `src/data/phases/phase-X.ts`.
+2. **Nạp dữ liệu Phase 3-6**: Sử dụng các dữ liệu thô từ scratch script `generate_curriculum_files.py` đưa vào database TypeScript.
+3. **Biên soạn Phase 1-2**: Xây dựng hoặc nghiên cứu để hoàn thiện đầy đủ nội dung cho các Phase đang thiếu.
+4. **Dynamic Import**: Cấu hình lazy loading để nạp bài học động theo yêu cầu của PRD.
