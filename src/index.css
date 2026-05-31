@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+/* ─────────────────────────────────────────────────────
+   Mika Design System v1.0 — AI Workflow Designer
+   Hybrid: Space Mono (brand/heading) + Be Vietnam Pro (body)
+   Accent: Cyan #00D4FF · Background: Near-black #0A0A0F
+───────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,102 +11,108 @@
 
 @layer base {
   :root {
-    /* Primary — Indigo */
-    --mika-p50:  #eef2ff;
-    --mika-p100: #e0e7ff;
-    --mika-p200: #c7d2fe;
-    --mika-p300: #a5b4fc;
-    --mika-p400: #818cf8;
-    --mika-p500: #6366f1;
-    --mika-p600: #4f46e5;
-    --mika-p700: #4338ca;
-    --mika-p800: #3730a3;
+    /* ── Mika Core Colors (Light mode) ── */
+    /* Backgrounds */
+    --bg:             #F4F6FA;
+    --bg-card:        #FFFFFF;
+    --bg-secondary:   #EEF1F8;
+    --bg-elevated:    #FFFFFF;
 
-    /* Accent — Emerald */
-    --mika-a50:  #ecfdf5;
-    --mika-a500: #10b981;
-    --mika-a600: #059669;
-    --mika-a700: #047857;
+    /* Borders */
+    --border:         #DDE1EC;
+    --border-light:   #EEF1F8;
+    --border-accent:  #C4CAE0;
 
-    /* Neutrals — Slate */
-    --mika-n0:   #ffffff;
-    --mika-n50:  #f8fafc;
-    --mika-n100: #f1f5f9;
-    --mika-n200: #e2e8f0;
-    --mika-n300: #cbd5e1;
-    --mika-n400: #94a3b8;
-    --mika-n500: #64748b;
-    --mika-n600: #475569;
-    --mika-n700: #334155;
-    --mika-n800: #1e293b;
-    --mika-n900: #0f172a;
+    /* Mika Accent — Cyan */
+    --mika-cyan:       #00A8CC;          /* slightly toned for light bg */
+    --mika-cyan-hover: #008BA8;
+    --mika-cyan-glow:  rgba(0, 168, 204, 0.18);
+    --mika-cyan-raw:   #00D4FF;          /* pure spec value */
 
-    /* ── Semantic Design Tokens (Light mode) ── */
-    --bg:             var(--mika-n50);
-    --bg-card:        var(--mika-n0);
-    --bg-secondary:   var(--mika-n100);
-    --border:         var(--mika-n200);
-    --border-light:   var(--mika-n100);
-    --text-primary:   var(--mika-n800);
-    --text-secondary: var(--mika-n500);
-    --text-muted:     var(--mika-n400);
+    /* Secondary accent */
+    --mika-blue:       #4169E1;
 
-    /* ── Spacing Scale ── */
+    /* Status colors */
+    --mika-success:    #00C87A;
+    --mika-warning:    #FFB800;
+    --mika-error:      #FF4444;
+    --mika-info:       #00AAFF;
+
+    /* Text */
+    --text-primary:   #12131A;
+    --text-secondary: #5A6179;
+    --text-muted:     #9099B5;
+    --text-accent:    var(--mika-cyan);
+
+    /* ── Spacing Scale (4px base — Mika spec) ── */
     --space-1:  4px;
     --space-2:  8px;
     --space-3:  12px;
     --space-4:  16px;
-    --space-5:  20px;
-    --space-6:  24px;
-    --space-8:  32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-16: 64px;
+    --space-5:  24px;
+    --space-6:  32px;
+    --space-7:  48px;
+    --space-8:  64px;
 
-    /* ── Border Radius ── */
-    --r-xs:  4px;
-    --r-sm:  8px;
-    --r-md:  12px;
-    --r-lg:  16px;
-    --r-xl:  20px;
+    /* ── Border Radius (Mika spec) ── */
+    --r-xs:  2px;
+    --r-sm:  4px;    /* Mika radius-sm */
+    --r-md:  8px;    /* Mika radius-md */
+    --r-lg:  12px;   /* Mika radius-lg */
+    --r-xl:  20px;   /* Mika radius-xl */
     --r-2xl: 24px;
-    --r-3xl: 32px;
     --r-full: 9999px;
 
     /* ── Shadows ── */
     --shadow-xs:    0 1px 2px rgba(0, 0, 0, .04);
     --shadow-sm:    0 1px 4px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .04);
-    --shadow-md:    0 4px 16px rgba(0, 0, 0, .08), 0 1px 3px rgba(0, 0, 0, .06);
-    --shadow-lg:    0 12px 40px rgba(0, 0, 0, .12), 0 4px 12px rgba(0, 0, 0, .08);
-    --shadow-xl:    0 24px 64px rgba(0, 0, 0, .16);
-    --shadow-focus: 0 0 0 3px rgba(99, 102, 241, .18);
-    --shadow-glow:  0 0 20px rgba(99, 102, 241, .35);
+    --shadow-md:    0 4px 16px rgba(0, 0, 0, .08), 0 1px 3px rgba(0, 0, 0, .05);
+    --shadow-lg:    0 12px 40px rgba(0, 0, 0, .10), 0 4px 12px rgba(0, 0, 0, .07);
+    --shadow-xl:    0 24px 64px rgba(0, 0, 0, .12);
+    --shadow-focus: 0 0 0 3px rgba(0, 168, 204, 0.25);
+    --shadow-glow:  0 0 20px rgba(0, 212, 255, 0.18);
 
     /* ── Animation Timing ── */
     --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
-    --ease-in-out:  cubic-bezier(0.45, 0, 0.55, 1);
+    --ease-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
     --duration-fast: 150ms;
     --duration-base: 250ms;
     --duration-slow: 400ms;
   }
 
-  /* ── Dark mode overrides ── */
+  /* ── Dark Mode — Mika spec: near-black, purple-tinted ── */
   html.dark {
-    --bg:             #0c111b;
-    --bg-card:        #131929;
-    --bg-secondary:   #192236;
-    --border:         #1e2d45;
-    --border-light:   #162035;
-    --text-primary:   #e2e8f0;
-    --text-secondary: #7489a8;
-    --text-muted:     #4a5a72;
-    --shadow-xs:    0 1px 2px rgba(0, 0, 0, .2);
-    --shadow-sm:    0 1px 4px rgba(0, 0, 0, .25), 0 1px 2px rgba(0, 0, 0, .2);
-    --shadow-md:    0 4px 16px rgba(0, 0, 0, .35), 0 1px 3px rgba(0, 0, 0, .25);
-    --shadow-lg:    0 12px 40px rgba(0, 0, 0, .5), 0 4px 12px rgba(0, 0, 0, .35);
-    --shadow-focus: 0 0 0 3px rgba(129, 140, 248, .22);
-    --shadow-glow:  0 0 24px rgba(99, 102, 241, .4);
+    /* Mika spec backgrounds */
+    --bg:             #0A0A0F;    /* ← Mika: Background Base */
+    --bg-card:        #111118;    /* ← Mika: Background Surface */
+    --bg-secondary:   #16161F;    /* between base and surface */
+    --bg-elevated:    #1A1A24;    /* ← Mika: Background Elevated */
+
+    /* Mika spec borders */
+    --border:         #1E1E2E;    /* ← Mika: Border Default */
+    --border-light:   #191927;
+    --border-accent:  #2A2A3E;    /* ← Mika: Border Accent */
+
+    /* Mika Accent — Cyan (full brightness in dark) */
+    --mika-cyan:       #00D4FF;   /* ← Mika spec exact */
+    --mika-cyan-hover: #00AACC;
+    --mika-cyan-glow:  rgba(0, 212, 255, 0.15);
+
+    /* Text — Mika spec */
+    --text-primary:   #F0F0FA;    /* ← Mika spec exact */
+    --text-secondary: #8888AA;    /* ← Mika spec exact */
+    --text-muted:     #555566;    /* ← Mika spec exact */
+    --text-accent:    #00D4FF;
+
+    /* Dark mode shadows */
+    --shadow-xs:    0 1px 2px rgba(0, 0, 0, .25);
+    --shadow-sm:    0 1px 4px rgba(0, 0, 0, .35), 0 1px 2px rgba(0, 0, 0, .25);
+    --shadow-md:    0 4px 16px rgba(0, 0, 0, .50), 0 1px 3px rgba(0, 0, 0, .35);
+    --shadow-lg:    0 12px 40px rgba(0, 0, 0, .65), 0 4px 12px rgba(0, 0, 0, .45);
+    --shadow-focus: 0 0 0 3px rgba(0, 212, 255, 0.25);
+    --shadow-glow:  0 0 24px rgba(0, 212, 255, 0.30),
+                    0 0 60px rgba(0, 212, 255, 0.10);
   }
 
   /* ── Base Typography ── */
@@ -119,31 +130,50 @@
   body {
     background-color: var(--bg);
     color: var(--text-primary);
+    /* Mika: Inter for body, Be Vietnam Pro as Vietnamese fallback */
     font-family: 'Be Vietnam Pro', 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 15px;
+    font-size: 15px;           /* Mika: Body = 15px */
     line-height: 1.65;
     letter-spacing: -0.005em;
     transition: background-color 300ms ease, color 300ms ease;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  /* Mika: h1/h2 → Space Mono (tech-feel), h3/h4 → Inter */
+  h1, h2 {
+    font-family: 'Space Mono', monospace;
     letter-spacing: -0.02em;
-    line-height: 1.25;
+    line-height: 1.2;
     font-weight: 700;
     color: var(--text-primary);
   }
 
-  /* Code / pre */
+  h3, h4, h5, h6 {
+    font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* Code — JetBrains Mono (Mika spec) */
   code, kbd, pre {
-    font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
     font-size: 0.875em;
   }
+
+  /* Mika: links use cyan */
+  a {
+    color: var(--mika-cyan);
+    text-decoration: none;
+    transition: color var(--duration-fast) ease;
+  }
+  a:hover { color: var(--mika-cyan-hover); }
 }
 
 @layer utilities {
-  /* ── Glassmorphism ── */
+  /* ── Mika Glassmorphism ── */
   .glass {
-    background: color-mix(in srgb, var(--bg-card) 75%, transparent);
+    background: color-mix(in srgb, var(--bg-card) 80%, transparent);
     backdrop-filter: blur(12px) saturate(1.5);
     -webkit-backdrop-filter: blur(12px) saturate(1.5);
     border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
@@ -153,10 +183,10 @@
     background: color-mix(in srgb, var(--bg-card) 90%, transparent);
     backdrop-filter: blur(24px) saturate(1.8);
     -webkit-backdrop-filter: blur(24px) saturate(1.8);
-    border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+    border: 1px solid color-mix(in srgb, var(--border-accent) 80%, transparent);
   }
 
-  /* ── Scanlines ── */
+  /* ── Mika Scanlines (Cyberpunk signature) ── */
   .scanlines {
     position: relative;
   }
@@ -179,33 +209,48 @@
       0deg,
       transparent,
       transparent 2px,
-      rgba(255, 255, 255, 0.015) 2px,
-      rgba(255, 255, 255, 0.015) 4px
+      rgba(255, 255, 255, 0.018) 2px,
+      rgba(255, 255, 255, 0.018) 4px
     );
   }
 
+  /* ── Mika Glow Effects (Cyan) ── */
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.30),
+                0 0 60px rgba(0, 212, 255, 0.10);
+  }
+  .glow-cyan-sm {
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.25);
+  }
+  .glow-subtle {
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.08);
+  }
+  .glow-text-cyan {
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+  }
+
   /* ── Gradient text ── */
-  .text-gradient-primary {
-    background: linear-gradient(135deg, var(--mika-p400), var(--mika-p600));
+  .text-gradient-cyan {
+    background: linear-gradient(135deg, var(--mika-cyan), var(--mika-blue));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .text-gradient-accent {
-    background: linear-gradient(135deg, var(--mika-a500), var(--mika-p500));
+  .text-gradient-primary {
+    background: linear-gradient(135deg, var(--mika-cyan), var(--mika-cyan-hover));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   /* ── Animations ── */
-  .flicker:hover {
+  .mika-flicker:hover {
     animation: mika-flicker 0.15s ease-in-out 3;
   }
 
   .pulse-glow {
-    animation: mika-pulseGlow 2.5s ease-in-out infinite;
+    animation: mika-pulse 2s ease-in-out infinite;
   }
 
   .animate-fade-in {
@@ -224,36 +269,47 @@
     animation: mika-scaleIn var(--duration-base) var(--ease-spring) both;
   }
 
-  /* ── Label chip ── */
-  .chip {
+  /* ── Mika Badge (chip) ── */
+  .mika-badge {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 2px 8px;
+    padding: 3px 10px;
     border-radius: var(--r-full);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    border: 1px solid currentColor;
   }
+  .mika-badge-cyan    { background: rgba(0, 212, 255, 0.12); color: var(--mika-cyan); border: 1px solid rgba(0, 212, 255, 0.25); }
+  .mika-badge-success { background: rgba(0, 200, 122, 0.12); color: var(--mika-success); border: 1px solid rgba(0, 200, 122, 0.25); }
+  .mika-badge-warning { background: rgba(255, 184, 0, 0.12);  color: var(--mika-warning); border: 1px solid rgba(255, 184, 0, 0.25); }
+  .mika-badge-error   { background: rgba(255, 68, 68, 0.12);  color: var(--mika-error);   border: 1px solid rgba(255, 68, 68, 0.25); }
 
-  /* ── Focus ring ── */
+  /* ── Focus ring (Cyan) ── */
   .focus-ring:focus-visible {
     outline: none;
     box-shadow: var(--shadow-focus);
+  }
+
+  /* ── Space Mono helper ── */
+  .font-display {
+    font-family: 'Space Mono', monospace;
   }
 }
 
 /* ── Keyframes ── */
 @keyframes mika-flicker {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.65; }
+  0%, 95%, 100% { opacity: 1; }
+  96%           { opacity: 0.85; }
+  97%           { opacity: 1; }
+  98%           { opacity: 0.9; }
 }
 
-@keyframes mika-pulseGlow {
-  0%, 100% { box-shadow: 0 0 8px rgba(99, 102, 241, 0.2); }
-  50%       { box-shadow: 0 0 24px rgba(99, 102, 241, 0.5), 0 0 8px rgba(99, 102, 241, 0.3); }
+/* Mika pulse — Cyan glow */
+@keyframes mika-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(0, 212, 255, 0.40); }
+  50%       { box-shadow: 0 0 20px rgba(0, 212, 255, 0.80); }
 }
 
 @keyframes mika-fadeIn {
@@ -276,20 +332,11 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
-@keyframes mika-spin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes mika-shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
 /* ── Custom Scrollbars ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
+  background: var(--border-accent);
   border-radius: var(--r-full);
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
