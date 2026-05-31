@@ -1,4 +1,5 @@
 // src/components/views/OverviewView.tsx
+import React from 'react';
 import type { UserProgress } from '@/types/progress';
 import { CURRICULUM } from '@/data/curriculum';
 import { Award, Clock, BookOpen, ChevronRight, CheckCircle } from 'lucide-react';
@@ -58,46 +59,46 @@ export function OverviewView({ progress, onSelectPhase }: OverviewViewProps) {
   };
 
   return (
-    <div className="flex flex-col gap-6 lg:gap-8 pb-10">
+    <div className="flex flex-col gap-6 lg:gap-8 pb-10 animate-fade-in">
       {/* 1. Stats HUD Bar */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-bg-card p-4 rounded-xl border border-border shadow-xs">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-mika-p50 text-mika-p600 dark:bg-mika-p800/20 dark:text-mika-p400">
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-bg-card p-5 lg:p-6 rounded-2xl border border-border shadow-sm">
+        <div className="flex items-center gap-4">
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-mika-p50 text-mika-p600 dark:bg-mika-p800/20 dark:text-mika-p400 shadow-sm">
             <BookOpen className="w-5 h-5" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-text-sec uppercase tracking-wider font-semibold">Tổng bài học</span>
-            <span className="text-base font-bold text-text-pri font-mono">{totalLessons}</span>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[10px] text-text-muted uppercase tracking-widest font-semibold">Tổng bài học</span>
+            <span className="text-xl font-bold text-text-primary font-mono leading-none">{totalLessons}</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-mika-a50 text-mika-a600 dark:bg-mika-a700/10 dark:text-mika-a500">
+        <div className="flex items-center gap-4">
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-mika-a50 text-mika-a600 dark:bg-mika-a700/10 dark:text-mika-a500 shadow-sm">
             <CheckCircle className="w-5 h-5" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-text-sec uppercase tracking-wider font-semibold">Đã hoàn thành</span>
-            <span className="text-base font-bold text-text-pri font-mono">{completedCount} bài</span>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[10px] text-text-muted uppercase tracking-widest font-semibold">Đã hoàn thành</span>
+            <span className="text-xl font-bold text-text-primary font-mono leading-none">{completedCount} bài</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-mika-v50 text-mika-v600 dark:bg-mika-v600/10 dark:text-mika-v600">
+        <div className="flex items-center gap-4">
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-mika-v50 text-mika-v600 dark:bg-mika-v600/10 dark:text-mika-v600 shadow-sm">
             <Clock className="w-5 h-5" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-text-sec uppercase tracking-wider font-semibold">Thời gian học</span>
-            <span className="text-base font-bold text-text-pri font-mono">{formatStudyTime(totalSeconds)}</span>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[10px] text-text-muted uppercase tracking-widest font-semibold">Thời gian học</span>
+            <span className="text-xl font-bold text-text-primary font-mono leading-none">{formatStudyTime(totalSeconds)}</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-mika-t50 text-mika-t600 dark:bg-mika-t600/10 dark:text-mika-t600">
+        <div className="flex items-center gap-4">
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-mika-t50 text-mika-t600 dark:bg-mika-t600/10 dark:text-mika-t600 shadow-sm">
             <Award className="w-5 h-5" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] text-text-sec uppercase tracking-wider font-semibold">Tiến độ tổng</span>
-            <span className="text-base font-bold text-text-pri font-mono">{progressPercent}%</span>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[10px] text-text-muted uppercase tracking-widest font-semibold">Tiến độ tổng</span>
+            <span className="text-xl font-bold text-text-primary font-mono leading-none">{progressPercent}%</span>
           </div>
         </div>
       </section>
@@ -177,7 +178,7 @@ export function OverviewView({ progress, onSelectPhase }: OverviewViewProps) {
         </section>
 
         {/* DESKTOP VIEW: Premium Responsive Cards Grid */}
-        <section className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {CURRICULUM.map((phase) => {
             const locked = isPhaseLocked(phase.id);
             const pProgress = getPhaseProgress(phase.id);
@@ -189,71 +190,77 @@ export function OverviewView({ progress, onSelectPhase }: OverviewViewProps) {
                 key={phase.id}
                 onClick={() => !locked && onSelectPhase(phase.id)}
                 style={{
+                  '--phase-color': activeColor,
                   borderColor: locked ? 'var(--border)' : 'transparent',
-                }}
-                className={`flex flex-col bg-bg-card border rounded-xl overflow-hidden shadow-xs transition-all duration-300 relative select-none ${
+                } as React.CSSProperties}
+                className={`group flex flex-col bg-bg-card border-2 rounded-2xl overflow-hidden shadow-sm transition-all duration-300 relative select-none ${
                   locked
-                    ? 'opacity-40 cursor-not-allowed'
-                    : 'cursor-pointer hover:border-acc border-border hover:shadow-md hover:-translate-y-1'
+                    ? 'opacity-45 cursor-not-allowed'
+                    : 'cursor-pointer hover:shadow-lg hover:-translate-y-1.5'
                 }`}
               >
-                {/* Header Banner colored with Phase color */}
+                {/* Top gradient accent bar */}
                 <div
-                  className="h-1.5 w-full transition-all duration-300"
-                  style={{ backgroundColor: locked ? 'var(--text-muted)' : activeColor }}
+                  className="h-2 w-full transition-all duration-300"
+                  style={{ background: locked ? 'var(--border)' : `linear-gradient(90deg, ${activeColor}cc, ${activeColor})` }}
                 />
 
-                <div className="p-5 flex flex-col gap-3">
+                <div className="p-6 flex flex-col gap-4">
                   {/* Title & Icon Header */}
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl p-2 rounded-lg bg-bg-secondary border border-border-light shadow-xs">
+                    <span className="text-2xl p-2.5 rounded-xl bg-bg-secondary border border-border shadow-sm">
                       {phase.icon}
                     </span>
                     <span
-                      style={{ color: locked ? 'var(--text-muted)' : activeColor }}
-                      className="text-[10px] font-bold uppercase tracking-wider font-mono border border-current px-2 py-0.5 rounded"
+                      style={{ color: locked ? 'var(--text-muted)' : activeColor, borderColor: locked ? 'var(--border)' : `${activeColor}50` }}
+                      className="text-[10px] font-bold uppercase tracking-widest font-mono border px-2.5 py-1 rounded-lg bg-bg-secondary"
                     >
-                      Phase {phase.id}
+                      PHASE {phase.id}
                     </span>
                   </div>
 
-                  {/* Description Metadata */}
-                  <div className="flex flex-col">
-                    <h3 className="text-sm font-bold text-text-pri line-clamp-1">{phase.title}</h3>
-                    <p className="text-xs text-text-sec mt-1 line-clamp-2 min-h-[32px]">{phase.subtitle}</p>
+                  {/* Description */}
+                  <div className="flex flex-col gap-1">
+                    <h3 className="text-base font-bold text-text-primary leading-snug tracking-tight line-clamp-1">{phase.title}</h3>
+                    <p className="text-sm text-text-secondary leading-relaxed line-clamp-2 min-h-[40px]">{phase.subtitle}</p>
                   </div>
 
                   {/* Progress Indicator */}
-                  <div className="flex flex-col gap-1.5 mt-2">
-                    <div className="flex items-center justify-between text-[10px] font-mono font-medium text-text-sec">
-                      <span>Tiến độ</span>
-                      <span>{locked ? 'Khóa 🔒' : `${pProgress}%`}</span>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-text-secondary font-medium">Tiến độ</span>
+                      <span className="text-xs font-bold font-mono" style={{ color: locked ? 'var(--text-muted)' : activeColor }}>
+                        {locked ? 'Khóa 🔒' : `${pProgress}%`}
+                      </span>
                     </div>
-                    <div className="w-full h-1.5 bg-bg-secondary border border-border-light rounded-full overflow-hidden">
+                    <div className="w-full h-2 bg-bg-secondary border border-border rounded-full overflow-hidden">
                       <div
-                        className="h-full transition-all duration-500"
+                        className="h-full rounded-full transition-all duration-700 ease-out"
                         style={{
                           width: `${locked ? 0 : pProgress}%`,
-                          backgroundColor: activeColor,
+                          background: `linear-gradient(90deg, ${activeColor}99, ${activeColor})`,
                         }}
                       />
                     </div>
                   </div>
 
-                  {/* Phase Outcome Summary */}
-                  <div className="text-[10px] text-text-sec border-t border-border-light pt-3 mt-1 flex flex-col gap-1">
-                    <span className="font-semibold text-text-pri">🎯 Outcome:</span>
-                    <span className="line-clamp-2">{phase.outcome}</span>
+                  {/* Outcome */}
+                  <div className="text-xs text-text-secondary border-t border-border pt-4 flex flex-col gap-1.5">
+                    <span className="font-semibold text-text-primary flex items-center gap-1">
+                      🎯 Outcome:
+                    </span>
+                    <span className="line-clamp-2 leading-relaxed">{phase.outcome}</span>
                   </div>
 
-                  {/* Footer Action */}
-                  <div className="flex items-center justify-between text-[10px] font-semibold mt-2 pt-2 border-t border-border-light">
-                    <span className="text-text-muted">{phase.duration} • {phase.totalHours}h</span>
+                  {/* Footer */}
+                  <div className="flex items-center justify-between mt-auto pt-3 border-t border-border">
+                    <span className="text-xs text-text-muted font-mono">{phase.duration} • {phase.totalHours}h</span>
                     <span
                       style={{ color: locked ? 'var(--text-muted)' : activeColor }}
-                      className="flex items-center gap-0.5 hover:underline"
+                      className="flex items-center gap-1 text-xs font-semibold transition-all group-hover:gap-2"
                     >
-                      {locked ? 'Đang khóa' : isCompleted ? 'Xem lại' : 'Học ngay'} <ChevronRight className="w-3.5 h-3.5" />
+                      {locked ? 'Đang khóa' : isCompleted ? 'Xem lại' : 'Học ngay'}
+                      <ChevronRight className="w-4 h-4" />
                     </span>
                   </div>
                 </div>

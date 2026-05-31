@@ -41,56 +41,56 @@ export function NavBar({
   const progressPercent = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
 
   return (
-    <nav className="hidden lg:flex sticky top-0 z-50 w-full h-[60px] px-6 items-center justify-between bg-bg-card/85 backdrop-blur-md border-b border-border shadow-xs transition-colors duration-300">
+    <nav className="hidden lg:flex sticky top-0 z-50 w-full h-[64px] px-6 items-center justify-between bg-bg-card/90 backdrop-blur-xl border-b border-border shadow-sm transition-colors duration-300">
       {/* Brand Logo & Title */}
       <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-mika-p600 text-white font-mono font-bold shadow-[0_0_12px_rgba(79,70,229,0.3)] pulse-glow">
+        <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-mika-p500 to-mika-p700 text-white font-mono font-bold text-sm shadow-[0_0_16px_rgba(99,102,241,0.4)] pulse-glow">
           AI
         </div>
         <div className="flex flex-col">
-          <span className="text-sm font-bold text-text-pri tracking-tight">AI Workflow Designer</span>
-          <span className="text-[10px] text-text-sec">Interactive Academy</span>
+          <span className="text-sm font-bold text-text-primary tracking-tight leading-tight">AI Workflow Designer</span>
+          <span className="text-[10px] text-text-muted tracking-wide">Interactive Academy</span>
         </div>
       </div>
 
       {/* Desktop Tabs */}
-      <div className="flex items-center gap-1 bg-bg-secondary p-1 rounded-r-md border border-border-light">
+      <div className="flex items-center gap-1 bg-bg-secondary/80 p-1 rounded-xl border border-border">
         <button
           onClick={() => setCurrentView('overview')}
-          className={`flex items-center gap-2 px-4 py-1.5 rounded-r-sm text-xs font-medium transition-all duration-200 ${
+          className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
             currentView === 'overview'
-              ? 'bg-mika-p600 text-white shadow-sm'
-              : 'text-text-sec hover:text-text-pri hover:bg-bg-card/50'
+              ? 'bg-mika-p600 text-white shadow-md shadow-mika-p600/25'
+              : 'text-text-secondary hover:text-text-primary hover:bg-bg-card'
           }`}
         >
           🗺 Lộ trình
         </button>
         <button
           onClick={() => setCurrentView('curriculum')}
-          className={`flex items-center gap-2 px-4 py-1.5 rounded-r-sm text-xs font-medium transition-all duration-200 ${
+          className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
             currentView === 'curriculum'
-              ? 'bg-mika-p600 text-white shadow-sm'
-              : 'text-text-sec hover:text-text-pri hover:bg-bg-card/50'
+              ? 'bg-mika-p600 text-white shadow-md shadow-mika-p600/25'
+              : 'text-text-secondary hover:text-text-primary hover:bg-bg-card'
           }`}
         >
           📚 Học tập
         </button>
         <button
           onClick={() => setCurrentView('search')}
-          className={`flex items-center gap-2 px-4 py-1.5 rounded-r-sm text-xs font-medium transition-all duration-200 ${
+          className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
             currentView === 'search'
-              ? 'bg-mika-p600 text-white shadow-sm'
-              : 'text-text-sec hover:text-text-pri hover:bg-bg-card/50'
+              ? 'bg-mika-p600 text-white shadow-md shadow-mika-p600/25'
+              : 'text-text-secondary hover:text-text-primary hover:bg-bg-card'
           }`}
         >
           🔍 Tìm kiếm
         </button>
         <button
           onClick={() => setCurrentView('sandbox')}
-          className={`flex items-center gap-2 px-4 py-1.5 rounded-r-sm text-xs font-medium transition-all duration-200 ${
+          className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
             currentView === 'sandbox'
-              ? 'bg-mika-p600 text-white shadow-sm'
-              : 'text-text-sec hover:text-text-pri hover:bg-bg-card/50'
+              ? 'bg-mika-p600 text-white shadow-md shadow-mika-p600/25'
+              : 'text-text-secondary hover:text-text-primary hover:bg-bg-card'
           }`}
         >
           ⚡ Giả lập
@@ -149,10 +149,10 @@ export function NavBar({
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-r-md border border-border hover:bg-bg-secondary text-text-sec hover:text-text-pri transition-all duration-200"
+          className="p-2 rounded-lg border border-border hover:bg-bg-secondary text-text-secondary hover:text-text-primary transition-all duration-200"
           aria-label="Chuyển chế độ giao diện"
         >
-          {isDark ? <Sun className="w-4 h-4 text-mika-am600" /> : <Moon className="w-4 h-4 text-mika-p600" />}
+          {isDark ? <Sun className="w-4 h-4 text-mika-am600" /> : <Moon className="w-4 h-4 text-mika-p500" />}
         </button>
       </div>
     </nav>

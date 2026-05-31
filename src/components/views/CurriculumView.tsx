@@ -1,6 +1,6 @@
 // src/components/views/CurriculumView.tsx
 import { useState, useEffect, useRef } from 'react';
-import type { UserProgress, QuizResult } from '@/types/progress';
+import type { UserProgress, QuizResult, ChallengeResult } from '@/types/progress';
 import type { Phase } from '@/types/curriculum';
 import { CURRICULUM } from '@/data/curriculum';
 import { parseMarkdownLite } from '@/utils/markdown-lite';
@@ -30,6 +30,7 @@ interface CurriculumViewProps {
   saveNote: (lessonId: string, note: string) => void;
   saveQuizResult: (lessonId: string, result: QuizResult) => void;
   saveChecklist: (lessonId: string, checklistState: boolean[]) => void;
+  saveChallengeResult: (lessonId: string, result: ChallengeResult) => Promise<void>;
 }
 
 export function CurriculumView({
@@ -42,6 +43,7 @@ export function CurriculumView({
   saveNote,
   saveQuizResult,
   saveChecklist,
+  saveChallengeResult,
 }: CurriculumViewProps) {
   // Desktop accordion open states (moduleId -> boolean)
   const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({});
@@ -218,7 +220,7 @@ export function CurriculumView({
         return;
       }
 
-      if (block.type === 'code' || block.type === 'table' || block.type === 'steps') {
+      if (block.type === 'code' || block.type === 'table' || block.type === 'steps' || block.type === 'challenge') {
         // High cognitive load components get their own single slide
         slides.push({
           type: 'content',
@@ -541,6 +543,8 @@ export function CurriculumView({
                                           newState[cIdx] = !newState[cIdx];
                                           await saveChecklist(lesson.id, newState);
                                         }}
+                                        savedChallengeResult={progress.challengeResults?.[lesson.id]}
+                                        onSaveChallengeResult={async (res) => await saveChallengeResult(lesson.id, res)}
                                       />
                                     ))}
                                   </div>
@@ -874,6 +878,8 @@ export function CurriculumView({
                           block={block}
                           lessonId={lesson.id}
                           quizIndex={idx}
+                          savedChallengeResult={progress.challengeResults?.[lesson.id]}
+                          onSaveChallengeResult={async (res) => await saveChallengeResult(lesson.id, res)}
                         />
                       ))}
                     </div>

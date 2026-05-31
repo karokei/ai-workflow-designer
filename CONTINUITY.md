@@ -2,8 +2,8 @@
 
 ## Current Session Details
 - **Date**: 2026-05-31
-- **Focus**: Interactive Assessment (AI-as-a-judge) & Visual n8n/Make Sandbox (Path B)
-- **Status**: Completed Path B 100% successfully! 🎉 All interactive grading & drag-connect simulation features active!
+- **Focus**: Mika Design System Fix — Spacing, Typography, Dark Mode, Token Consistency
+- **Status**: Design system cải thiện xong! NavBar tabs đúng border-radius, Stats HUD padding tốt hơn, Phase cards premium hơn, CSS tokens nhất quán.
 
 ## Tasks Checklist
 
@@ -75,3 +75,4 @@
 - Thiết kế visual canvas kéo thả kết hợp SVG Paths năng động với neon energy flows mang lại giao diện premium tinh tế cho học viện.
 - Vite và TypeScript hoạt động rất tốt trong việc kiểm soát các import type-only, split code, và tối ưu hóa bundles.
 - Đạt mốc **47/47 tests PASS** và hoàn thành xuất sắc toàn bộ Path B.
+- **Design System Fix (Session 5)**: Mika token mapping phải có cả long names (`text-primary`, `text-secondary`, `text-muted`, `bg-base`) và short aliases (`text-pri`, `text-sec`). NavBar tabs cần dùng `rounded-lg` thay vì `rounded-r-sm` (đặt biệt với semi-rounded). Dark mode colors cần deeper `#0c111b` làm background để tạo contrast cao hơn.
