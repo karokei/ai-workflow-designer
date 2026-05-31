@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "StitchMCP": {
+      "command": "npx",
+      "args": ["-y", "@stitch/mcp-server"]
+    },
+    "firebase-mcp-server": {
+      "command": "npx",
+      "args": ["-y", "firebase-mcp-server"]
+    }
+  }
+}
