@@ -1,6 +1,7 @@
 // src/components/views/CurriculumView.tsx
 import { useState, useEffect, useRef } from 'react';
 import type { UserProgress, QuizResult } from '@/types/progress';
+import type { Phase } from '@/types/curriculum';
 import { CURRICULUM } from '@/data/curriculum';
 import { parseMarkdownLite } from '@/utils/markdown-lite';
 import { ContentBlockRenderer } from '@/components/curriculum/ContentBlockRenderer';
@@ -55,7 +56,45 @@ export function CurriculumView({
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
   const slideAreaRef = useRef<HTMLDivElement>(null);
 
-  const activePhase = CURRICULUM.find((p) => p.id === selectedPhaseId) || CURRICULUM[0];
+  // Dynamic loading states
+  const [loadedPhases, setLoadedPhases] = useState<Record<number, Phase>>({});
+  const [loadingPhaseId, setLoadingPhaseId] = useState<number | null>(null);
+
+  // Dynamic import hook
+  useEffect(() => {
+    if (loadedPhases[selectedPhaseId]) {
+      return;
+    }
+
+    let isMounted = true;
+    const loadPhase = async () => {
+      setLoadingPhaseId(selectedPhaseId);
+      try {
+        const module = await import(`../../data/phases/phase-${selectedPhaseId}.ts`);
+        const phaseData = module[`phase${selectedPhaseId}`];
+        if (isMounted && phaseData) {
+          setLoadedPhases((prev) => ({
+            ...prev,
+            [selectedPhaseId]: phaseData,
+          }));
+        }
+      } catch (err) {
+        console.error(`Failed to load phase-${selectedPhaseId} dynamically:`, err);
+      } finally {
+        if (isMounted) {
+          setLoadingPhaseId(null);
+        }
+      }
+    };
+
+    loadPhase();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedPhaseId, loadedPhases]);
+
+  const activePhase = loadedPhases[selectedPhaseId] || CURRICULUM.find((p) => p.id === selectedPhaseId) || CURRICULUM[0];
 
   // Auto-expand the first module when active phase changes
   useEffect(() => {
@@ -349,233 +388,252 @@ export function CurriculumView({
           </section>
 
           {/* Module Accordions List */}
-          <section className="flex flex-col gap-4">
-            {activePhase.modules.map((mod) => {
-              const isOpen = expandedModules[mod.id] || false;
-              const mLessons = mod.lessons.map((l) => l.id);
-              const mCompleted = mLessons.filter((id) => progress.completedLessons[id]).length;
-              const mProgress = mLessons.length > 0 ? Math.round((mCompleted / mLessons.length) * 100) : 0;
+          {loadingPhaseId === selectedPhaseId ? (
+            <div className="flex flex-col items-center justify-center py-20 bg-bg-card border border-border rounded-2xl shadow-xs animate-pulse">
+              <div className="relative w-16 h-16 mb-4">
+                {/* Glowing neon ring */}
+                <div 
+                  className="absolute inset-0 rounded-full border-4 border-t-transparent animate-spin"
+                  style={{ borderColor: `${activePhase.theme.color}40`, borderTopColor: activePhase.theme.color }}
+                />
+                <div 
+                  className="absolute inset-2 rounded-full border-2 border-dashed animate-spin opacity-60"
+                  style={{ borderColor: activePhase.theme.color, animationDirection: 'reverse', animationDuration: '3s' }}
+                />
+              </div>
+              <span className="text-xs font-bold font-mono tracking-widest text-text-secondary uppercase">
+                Đang nạp dữ liệu Phase {selectedPhaseId}...
+              </span>
+            </div>
+          ) : (
+            <section className="flex flex-col gap-4">
+              {activePhase.modules.map((mod) => {
+                const isOpen = expandedModules[mod.id] || false;
+                const mLessons = mod.lessons.map((l) => l.id);
+                const mCompleted = mLessons.filter((id) => progress.completedLessons[id]).length;
+                const mProgress = mLessons.length > 0 ? Math.round((mCompleted / mLessons.length) * 100) : 0;
 
-              return (
-                <div key={mod.id} className="bg-bg-card border border-border rounded-xl overflow-hidden shadow-xs">
-                  {/* Module Header Bar */}
-                  <button
-                    onClick={() => handleToggleModule(mod.id)}
-                    className="flex items-center justify-between w-full p-4 hover:bg-bg-secondary/30 text-left transition-colors relative"
-                  >
-                    <div className="flex items-center gap-3.5">
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                          <h3 className="text-sm font-bold text-text-primary tracking-tight">
-                            {mod.title}
-                          </h3>
-                          <span className="text-[10px] font-bold font-mono text-mika-p600 bg-mika-p50 dark:bg-mika-p800/10 px-1.5 py-0.5 rounded">
-                            {mod.estimatedHours}h
-                          </span>
+                return (
+                  <div key={mod.id} className="bg-bg-card border border-border rounded-xl overflow-hidden shadow-xs">
+                    {/* Module Header Bar */}
+                    <button
+                      onClick={() => handleToggleModule(mod.id)}
+                      className="flex items-center justify-between w-full p-4 hover:bg-bg-secondary/30 text-left transition-colors relative"
+                    >
+                      <div className="flex items-center gap-3.5">
+                        <div className="flex flex-col">
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-sm font-bold text-text-primary tracking-tight">
+                              {mod.title}
+                            </h3>
+                            <span className="text-[10px] font-bold font-mono text-mika-p600 bg-mika-p50 dark:bg-mika-p800/10 px-1.5 py-0.5 rounded">
+                              {mod.estimatedHours}h
+                            </span>
+                          </div>
+                          <p className="text-xs text-text-secondary mt-0.5">
+                            {mod.description}
+                          </p>
                         </div>
-                        <p className="text-xs text-text-secondary mt-0.5">
-                          {mod.description}
-                        </p>
                       </div>
-                    </div>
 
-                    <div className="flex items-center gap-4">
-                      {/* Mini Progress Circle or Pill */}
-                      <span className="text-[10px] font-bold font-mono text-text-secondary">
-                        {mCompleted}/{mLessons.length} bài ({mProgress}%)
-                      </span>
-                      {isOpen ? <ChevronUp className="w-4 h-4 text-text-muted" /> : <ChevronDown className="w-4 h-4 text-text-muted" />}
-                    </div>
+                      <div className="flex items-center gap-4">
+                        {/* Mini Progress Circle or Pill */}
+                        <span className="text-[10px] font-bold font-mono text-text-secondary">
+                          {mCompleted}/{mLessons.length} bài ({mProgress}%)
+                        </span>
+                        {isOpen ? <ChevronUp className="w-4 h-4 text-text-muted" /> : <ChevronDown className="w-4 h-4 text-text-muted" />}
+                      </div>
 
-                    {/* Progress thin bar below header */}
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-bg-secondary">
-                      <div 
-                        className="h-full bg-mika-p600 transition-all duration-300"
-                        style={{ width: `${mProgress}%` }}
-                      />
-                    </div>
-                  </button>
+                      {/* Progress thin bar below header */}
+                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-bg-secondary">
+                        <div 
+                          className="h-full bg-mika-p600 transition-all duration-300"
+                          style={{ width: `${mProgress}%` }}
+                        />
+                      </div>
+                    </button>
 
-                  {/* Module Lessons Content */}
-                  {isOpen && (
-                    <div className="divide-y divide-border border-t border-border">
-                      {mod.lessons.map((lesson) => {
-                        const isDone = progress.completedLessons[lesson.id] || false;
-                        const isExpanded = expandedLessons[lesson.id] || false;
+                    {/* Module Lessons Content */}
+                    {isOpen && (
+                      <div className="divide-y divide-border border-t border-border">
+                        {mod.lessons.map((lesson) => {
+                          const isDone = progress.completedLessons[lesson.id] || false;
+                          const isExpanded = expandedLessons[lesson.id] || false;
 
-                        // Quiz/Checklist completed count
-                        const quizResult = progress.quizResults[lesson.id];
-                        const checklistState = progress.checklistProgress[lesson.id] || [];
+                          // Quiz/Checklist completed count
+                          const quizResult = progress.quizResults[lesson.id];
+                          const checklistState = progress.checklistProgress[lesson.id] || [];
 
-                        return (
-                          <div key={lesson.id} className="flex flex-col bg-bg-card">
-                            {/* Lesson Row */}
-                            <div className="flex items-center justify-between p-3.5 hover:bg-bg-secondary/20 transition-colors">
-                              <div className="flex items-center gap-3.5 flex-1 min-w-0">
-                                {/* Done Toggle Checkbox */}
-                                <button
-                                  onClick={() => toggleLesson(lesson.id)}
-                                  className="w-5 h-5 rounded border border-border flex items-center justify-center bg-bg-secondary/40 hover:bg-bg-secondary text-mika-a600 focus:outline-none transition-all active:scale-90"
-                                >
-                                  {isDone && <Check className="w-3.5 h-3.5 stroke-[3px]" />}
-                                </button>
+                          return (
+                            <div key={lesson.id} className="flex flex-col bg-bg-card">
+                              {/* Lesson Row */}
+                              <div className="flex items-center justify-between p-3.5 hover:bg-bg-secondary/20 transition-colors">
+                                <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                                  {/* Done Toggle Checkbox */}
+                                  <button
+                                    onClick={() => toggleLesson(lesson.id)}
+                                    className="w-5 h-5 rounded border border-border flex items-center justify-center bg-bg-secondary/40 hover:bg-bg-secondary text-mika-a600 focus:outline-none transition-all active:scale-90"
+                                  >
+                                    {isDone && <Check className="w-3.5 h-3.5 stroke-[3px]" />}
+                                  </button>
 
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  {getLessonBadge(lesson.type)}
-                                  <span className="text-[10px] text-text-muted font-mono">{lesson.duration}</span>
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    {getLessonBadge(lesson.type)}
+                                    <span className="text-[10px] text-text-muted font-mono">{lesson.duration}</span>
+                                  </div>
+
+                                  <span
+                                    onClick={() => handleToggleLessonDetail(lesson.id)}
+                                    className={`text-xs font-bold truncate cursor-pointer hover:text-mika-p500 transition-colors ${
+                                      isDone ? 'text-text-muted line-through opacity-70' : 'text-text-primary'
+                                    }`}
+                                  >
+                                    {lesson.title}
+                                  </span>
                                 </div>
 
-                                <span
+                                <button
                                   onClick={() => handleToggleLessonDetail(lesson.id)}
-                                  className={`text-xs font-bold truncate cursor-pointer hover:text-mika-p500 transition-colors ${
-                                    isDone ? 'text-text-muted line-through opacity-70' : 'text-text-primary'
-                                  }`}
+                                  className="flex items-center gap-1.5 text-xs text-text-secondary hover:text-text-primary font-medium"
                                 >
-                                  {lesson.title}
-                                </span>
+                                  {isExpanded ? 'Ẩn' : 'Xem nội dung'}
+                                  {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                                </button>
                               </div>
 
-                              <button
-                                onClick={() => handleToggleLessonDetail(lesson.id)}
-                                className="flex items-center gap-1.5 text-xs text-text-secondary hover:text-text-primary font-medium"
-                              >
-                                {isExpanded ? 'Ẩn' : 'Xem nội dung'}
-                                {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                              </button>
-                            </div>
+                              {/* Lesson Detail Expanded Panel */}
+                              {isExpanded && (
+                                <div className="p-5 bg-bg-secondary/15 border-t border-border flex flex-col gap-4 animate-fade-in">
+                                  {/* Summary block */}
+                                  <p className="text-xs text-text-secondary leading-relaxed bg-bg-card p-3 rounded-lg border border-border-light italic">
+                                    💡 <strong>Khái quát bài học: </strong> {lesson.summary}
+                                  </p>
 
-                            {/* Lesson Detail Expanded Panel */}
-                            {isExpanded && (
-                              <div className="p-5 bg-bg-secondary/15 border-t border-border flex flex-col gap-4 animate-fade-in">
-                                {/* Summary block */}
-                                <p className="text-xs text-text-secondary leading-relaxed bg-bg-card p-3 rounded-lg border border-border-light italic">
-                                  💡 <strong>Khái quát bài học: </strong> {lesson.summary}
-                                </p>
-
-                                {/* Render Detailed Content Blocks */}
-                                <div className="flex flex-col gap-1 max-w-4xl">
-                                  {lesson.content.map((block: any, bIdx: number) => (
-                                    <ContentBlockRenderer
-                                      key={bIdx}
-                                      block={block}
-                                      lessonId={lesson.id}
-                                      quizIndex={bIdx}
-                                      savedQuizAnswer={quizResult?.answers[bIdx]}
-                                      onSelectQuizAnswer={async (ans) => {
-                                        // Save answer into quiz results progress state
-                                        const prevAnswers = quizResult?.answers || [];
-                                        const newAnswers = [...prevAnswers];
-                                        newAnswers[bIdx] = ans;
-                                        const score = newAnswers.includes(-1) ? 0 : 100; // Simplified scoring
-                                        await saveQuizResult(lesson.id, {
-                                          answers: newAnswers,
-                                          score,
-                                          completedAt: new Date().toISOString(),
-                                          attempts: (quizResult?.attempts || 0) + 1,
-                                        });
-                                      }}
-                                      savedChecklistState={checklistState}
-                                      onSelectChecklistItem={async (cIdx) => {
-                                        const newState = [...checklistState];
-                                        // Initialize array if empty
-                                        if (newState.length === 0 && block.type === 'checklist') {
-                                          block.items.forEach(() => newState.push(false));
-                                        }
-                                        newState[cIdx] = !newState[cIdx];
-                                        await saveChecklist(lesson.id, newState);
-                                      }}
-                                    />
-                                  ))}
-                                </div>
-
-                                {/* External Resources Links */}
-                                {lesson.resources && lesson.resources.length > 0 && (
-                                  <div className="border-t border-border pt-4 mt-2 flex flex-col gap-2.5">
-                                    <h5 className="text-[11px] font-bold uppercase tracking-wider text-text-sec">Tài nguyên bổ trợ</h5>
-                                    <div className="flex gap-3 flex-wrap">
-                                      {lesson.resources.map((res: any, idx: number) => (
-                                        <a
-                                          key={idx}
-                                          href={res.url}
-                                          target="_blank"
-                                          rel="noreferrer"
-                                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-bg-card hover:bg-bg-secondary text-xs text-text-primary hover:text-mika-p600 transition-all shadow-xs"
-                                        >
-                                          <span>{res.title}</span>
-                                          <span className="text-[9px] px-1 bg-bg-secondary text-text-muted rounded capitalize">
-                                            {res.kind}
-                                          </span>
-                                          <ExternalLink className="w-3 h-3 text-text-muted" />
-                                        </a>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-
-                                {/* Personal Note Editor */}
-                                <div className="border-t border-border pt-4 mt-2 flex flex-col gap-3">
-                                  <div className="flex items-center justify-between">
-                                    <h5 className="text-[11px] font-bold uppercase tracking-wider text-text-sec">📝 Ghi chú cá nhân</h5>
-                                    {!isEditingNote[lesson.id] && (
-                                      <button
-                                        onClick={() => startEditNote(lesson.id)}
-                                        className="flex items-center gap-1 text-[11px] font-semibold text-mika-p600 hover:text-mika-p700 transition-colors"
-                                      >
-                                        <Edit3 className="w-3 h-3" />
-                                        <span>{progress.lessonNotes[lesson.id] ? 'Chỉnh sửa' : 'Thêm ghi chú'}</span>
-                                      </button>
-                                    )}
-                                  </div>
-
-                                  {isEditingNote[lesson.id] ? (
-                                    <div className="flex flex-col gap-2">
-                                      <textarea
-                                        value={tempNotes[lesson.id] || ''}
-                                        onChange={(e) => setTempNotes(prev => ({ ...prev, [lesson.id]: e.target.value }))}
-                                        placeholder="Ghi lại các insight học tập, ghi chú kỹ thuật, API keys..."
-                                        rows={4}
-                                        className="w-full text-xs p-3 bg-bg-card text-text-primary border border-border rounded-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-mika-p500 placeholder:text-text-muted font-mono leading-relaxed"
+                                  {/* Render Detailed Content Blocks */}
+                                  <div className="flex flex-col gap-1 max-w-4xl">
+                                    {lesson.content.map((block: any, bIdx: number) => (
+                                      <ContentBlockRenderer
+                                        key={bIdx}
+                                        block={block}
+                                        lessonId={lesson.id}
+                                        quizIndex={bIdx}
+                                        savedQuizAnswer={quizResult?.answers[bIdx]}
+                                        onSelectQuizAnswer={async (ans) => {
+                                          // Save answer into quiz results progress state
+                                          const prevAnswers = quizResult?.answers || [];
+                                          const newAnswers = [...prevAnswers];
+                                          newAnswers[bIdx] = ans;
+                                          const score = newAnswers.includes(-1) ? 0 : 100; // Simplified scoring
+                                          await saveQuizResult(lesson.id, {
+                                            answers: newAnswers,
+                                            score,
+                                            completedAt: new Date().toISOString(),
+                                            attempts: (quizResult?.attempts || 0) + 1,
+                                          });
+                                        }}
+                                        savedChecklistState={checklistState}
+                                        onSelectChecklistItem={async (cIdx) => {
+                                          const newState = [...checklistState];
+                                          // Initialize array if empty
+                                          if (newState.length === 0 && block.type === 'checklist') {
+                                            block.items.forEach(() => newState.push(false));
+                                          }
+                                          newState[cIdx] = !newState[cIdx];
+                                          await saveChecklist(lesson.id, newState);
+                                        }}
                                       />
-                                      <div className="flex items-center gap-2 justify-end">
-                                        <button
-                                          onClick={() => handleCancelEditNote(lesson.id)}
-                                          className="px-3 py-1.5 text-xs text-text-secondary hover:bg-bg-secondary border border-border rounded-lg transition-all"
-                                        >
-                                          Hủy
-                                        </button>
-                                        <button
-                                          onClick={() => handleSaveNote(lesson.id)}
-                                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-mika-p600 hover:bg-mika-p700 text-white rounded-lg transition-all shadow-xs"
-                                        >
-                                          <Save className="w-3.5 h-3.5" />
-                                          <span>Lưu ghi chú</span>
-                                        </button>
+                                    ))}
+                                  </div>
+
+                                  {/* External Resources Links */}
+                                  {lesson.resources && lesson.resources.length > 0 && (
+                                    <div className="border-t border-border pt-4 mt-2 flex flex-col gap-2.5">
+                                      <h5 className="text-[11px] font-bold uppercase tracking-wider text-text-sec">Tài nguyên bổ trợ</h5>
+                                      <div className="flex gap-3 flex-wrap">
+                                        {lesson.resources.map((res: any, idx: number) => (
+                                          <a
+                                            key={idx}
+                                            href={res.url}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-bg-card hover:bg-bg-secondary text-xs text-text-primary hover:text-mika-p600 transition-all shadow-xs"
+                                          >
+                                            <span>{res.title}</span>
+                                            <span className="text-[9px] px-1 bg-bg-secondary text-text-muted rounded capitalize">
+                                              {res.kind}
+                                            </span>
+                                            <ExternalLink className="w-3 h-3 text-text-muted" />
+                                          </a>
+                                        ))}
                                       </div>
                                     </div>
-                                  ) : (
-                                    progress.lessonNotes[lesson.id] ? (
-                                      <div 
-                                        className="p-3.5 bg-bg-card border border-border rounded-lg text-xs leading-relaxed text-text-secondary select-text font-mono"
-                                        dangerouslySetInnerHTML={{ __html: parseMarkdownLite(progress.lessonNotes[lesson.id]) }}
-                                      />
-                                    ) : (
-                                      <span className="text-[11px] text-text-muted italic">
-                                        Chưa có ghi chú nào cho bài học này. Viết ghi chú đầu tiên để lưu trữ IndexedDB.
-                                      </span>
-                                    )
                                   )}
+
+                                  {/* Personal Note Editor */}
+                                  <div className="border-t border-border pt-4 mt-2 flex flex-col gap-3">
+                                    <div className="flex items-center justify-between">
+                                      <h5 className="text-[11px] font-bold uppercase tracking-wider text-text-sec">📝 Ghi chú cá nhân</h5>
+                                      {!isEditingNote[lesson.id] && (
+                                        <button
+                                          onClick={() => startEditNote(lesson.id)}
+                                          className="flex items-center gap-1 text-[11px] font-semibold text-mika-p600 hover:text-mika-p700 transition-colors"
+                                        >
+                                          <Edit3 className="w-3 h-3" />
+                                          <span>{progress.lessonNotes[lesson.id] ? 'Chỉnh sửa' : 'Thêm ghi chú'}</span>
+                                        </button>
+                                      )}
+                                    </div>
+
+                                    {isEditingNote[lesson.id] ? (
+                                      <div className="flex flex-col gap-2">
+                                        <textarea
+                                          value={tempNotes[lesson.id] || ''}
+                                          onChange={(e) => setTempNotes(prev => ({ ...prev, [lesson.id]: e.target.value }))}
+                                          placeholder="Ghi lại các insight học tập, ghi chú kỹ thuật, API keys..."
+                                          rows={4}
+                                          className="w-full text-xs p-3 bg-bg-card text-text-primary border border-border rounded-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-mika-p500 placeholder:text-text-muted font-mono leading-relaxed"
+                                        />
+                                        <div className="flex items-center gap-2 justify-end">
+                                          <button
+                                            onClick={() => handleCancelEditNote(lesson.id)}
+                                            className="px-3 py-1.5 text-xs text-text-secondary hover:bg-bg-secondary border border-border rounded-lg transition-all"
+                                          >
+                                            Hủy
+                                          </button>
+                                          <button
+                                            onClick={() => handleSaveNote(lesson.id)}
+                                            className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-mika-p600 hover:bg-mika-p700 text-white rounded-lg transition-all shadow-xs"
+                                          >
+                                            <Save className="w-3.5 h-3.5" />
+                                            <span>Lưu ghi chú</span>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      progress.lessonNotes[lesson.id] ? (
+                                        <div 
+                                          className="p-3.5 bg-bg-card border border-border rounded-lg text-xs leading-relaxed text-text-secondary select-text font-mono"
+                                          dangerouslySetInnerHTML={{ __html: parseMarkdownLite(progress.lessonNotes[lesson.id]) }}
+                                        />
+                                      ) : (
+                                        <span className="text-[11px] text-text-muted italic">
+                                          Chưa có ghi chú nào cho bài học này. Viết ghi chú đầu tiên để lưu trữ IndexedDB.
+                                        </span>
+                                      )
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </section>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </section>
+          )}
         </div>
       </div>
 
@@ -624,59 +682,73 @@ export function CurriculumView({
             </div>
 
             {/* Modules / Lessons List inside current phase */}
-            <div className="flex flex-col gap-4">
-              {activePhase.modules.map((mod) => {
-                return (
-                  <div key={mod.id} className="flex flex-col gap-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted px-1 mt-2">
-                      📚 {mod.title}
-                    </span>
-                    <div className="flex flex-col bg-bg-card border border-border rounded-xl divide-y divide-border">
-                      {mod.lessons.map((lesson) => {
-                        const isDone = progress.completedLessons[lesson.id] || false;
-                        return (
-                          <div
-                            key={lesson.id}
-                            onClick={() => onSelectLesson(lesson.id)}
-                            className="flex items-center justify-between p-3.5 hover:bg-bg-secondary/40 active:bg-bg-secondary/60 transition-all cursor-pointer"
-                          >
-                            <div className="flex items-center gap-3 min-w-0 flex-1">
-                              {/* Circle indicators of completed states */}
-                              <div
-                                onClick={(e) => {
-                                  e.stopPropagation(); // Avoid opening focus card
-                                  toggleLesson(lesson.id);
-                                }}
-                                className={`w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0 transition-all ${
-                                  isDone
-                                    ? 'bg-mika-a600 border-mika-a600 text-white shadow-xs'
-                                    : 'border-border bg-bg-secondary/40'
-                                }`}
-                              >
-                                {isDone && <Check className="w-3.5 h-3.5 stroke-[3px]" />}
-                              </div>
+            {loadingPhaseId === selectedPhaseId ? (
+              <div className="flex flex-col items-center justify-center py-16 bg-bg-card border border-border rounded-xl shadow-xs animate-pulse">
+                <div className="relative w-12 h-12 mb-3">
+                  <div 
+                    className="absolute inset-0 rounded-full border-3 border-t-transparent animate-spin"
+                    style={{ borderColor: `${activePhase.theme.color}40`, borderTopColor: activePhase.theme.color }}
+                  />
+                </div>
+                <span className="text-[10px] font-bold font-mono tracking-wider text-text-secondary uppercase">
+                  Đang nạp Phase {selectedPhaseId}...
+                </span>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {activePhase.modules.map((mod) => {
+                  return (
+                    <div key={mod.id} className="flex flex-col gap-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted px-1 mt-2">
+                        📚 {mod.title}
+                      </span>
+                      <div className="flex flex-col bg-bg-card border border-border rounded-xl divide-y divide-border">
+                        {mod.lessons.map((lesson) => {
+                          const isDone = progress.completedLessons[lesson.id] || false;
+                          return (
+                            <div
+                              key={lesson.id}
+                              onClick={() => onSelectLesson(lesson.id)}
+                              className="flex items-center justify-between p-3.5 hover:bg-bg-secondary/40 active:bg-bg-secondary/60 transition-all cursor-pointer"
+                            >
+                              <div className="flex items-center gap-3 min-w-0 flex-1">
+                                {/* Circle indicators of completed states */}
+                                <div
+                                  onClick={(e) => {
+                                    e.stopPropagation(); // Avoid opening focus card
+                                    toggleLesson(lesson.id);
+                                  }}
+                                  className={`w-5 h-5 rounded-full border flex items-center justify-center flex-shrink-0 transition-all ${
+                                    isDone
+                                      ? 'bg-mika-a600 border-mika-a600 text-white shadow-xs'
+                                      : 'border-border bg-bg-secondary/40'
+                                  }`}
+                                >
+                                  {isDone && <Check className="w-3.5 h-3.5 stroke-[3px]" />}
+                                </div>
 
-                              <div className="flex flex-col min-w-0">
-                                <span className={`text-xs font-bold truncate leading-snug ${
-                                  isDone ? 'text-text-muted line-through opacity-70' : 'text-text-primary'
-                                }`}>
-                                  {lesson.title}
-                                </span>
-                                <div className="flex items-center gap-2 mt-1">
-                                  {getLessonBadge(lesson.type)}
-                                  <span className="text-[9px] text-text-muted font-mono">{lesson.duration}</span>
+                                <div className="flex flex-col min-w-0">
+                                  <span className={`text-xs font-bold truncate leading-snug ${
+                                    isDone ? 'text-text-muted line-through opacity-70' : 'text-text-primary'
+                                  }`}>
+                                    {lesson.title}
+                                  </span>
+                                  <div className="flex items-center gap-2 mt-1">
+                                    {getLessonBadge(lesson.type)}
+                                    <span className="text-[9px] text-text-muted font-mono">{lesson.duration}</span>
+                                  </div>
                                 </div>
                               </div>
+                              <ChevronDown className="w-4 h-4 text-text-muted -rotate-90" />
                             </div>
-                            <ChevronDown className="w-4 h-4 text-text-muted -rotate-90" />
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         ) : (
           /* State B: Focused Swipeable Card interface */
