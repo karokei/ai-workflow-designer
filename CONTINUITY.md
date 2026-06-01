@@ -70,9 +70,22 @@
 - [x] Step 7: Chạy lệnh build kiểm tra độ ổn định biên dịch đóng gói và split chunks thành công
 - [x] Step 8: Commit hoàn tất Path B tích hợp và kết thúc session
 
+### Task 8: Đồng bộ toàn diện Mika Design System v1.0 trong Views & Content-blocks
+- [x] Step 1: Phân tích và audit visual trên toàn bộ views và components
+- [x] Step 2: Cập nhật OverviewView.tsx (bo góc Stats HUD r-xl, card hover shadow neon Cyan)
+- [x] Step 3: Tinh chỉnh CurriculumView.tsx (loại bỏ hoàn toàn các class Indigo cũ ở sidebar, badges, progress bar, note editor, progress indicators và buttons di động)
+- [x] Step 4: Cập nhật SandboxView.tsx (đổi icon, selector focus, active nodes border và json log items sang Cyan)
+- [x] Step 5: Cập nhật SearchView.tsx (đổi focus ring, hover border và badges sang Cyan)
+- [x] Step 6: Refactor 6 tệp tin Content Blocks (Challenge, Quiz, Checklist, Steps, Code, List) sang màu nhấn Cyan và status colors chuẩn
+- [x] Step 7: Cập nhật BottomNav, HUDFloatingTimer, App, và markdown-lite parser sang Cyan accent
+- [x] Step 8: Chạy toàn bộ unit tests đảm bảo 47/47 tests PASS xanh lá
+- [x] Step 9: Build đóng gói sản phẩm thành công 100% không cảnh báo lỗi
+- [x] Step 10: Commit thay đổi và lưu trữ bài học vào learnings.json
+
 ## Learnings & Progress
 - Trình chấm điểm AI-as-a-judge cục bộ tối ưu hóa độ trễ, hoàn toàn offline, dễ dàng tùy biến điều kiện keywords và biên soạn phản hồi tiếng Việt chuẩn nghiệp vụ.
 - Thiết kế visual canvas kéo thả kết hợp SVG Paths năng động với neon energy flows mang lại giao diện premium tinh tế cho học viện.
 - Vite và TypeScript hoạt động rất tốt trong việc kiểm soát các import type-only, split code, và tối ưu hóa bundles.
 - Đạt mốc **47/47 tests PASS** và hoàn thành xuất sắc toàn bộ Path B.
-- **Design System Fix (Session 5)**: Mika token mapping phải có cả long names (`text-primary`, `text-secondary`, `text-muted`, `bg-base`) và short aliases (`text-pri`, `text-sec`). NavBar tabs cần dùng `rounded-lg` thay vì `rounded-r-sm` (đặt biệt với semi-rounded). Dark mode colors cần deeper `#0c111b` làm background để tạo contrast cao hơn.
+- **Design System Fix (Session 6)**: Mika Design System v1.0 quy định nghiêm ngặt về màu sắc accent của brand là Electric Cyan (#00D4FF). Button primary bắt buộc dùng chữ đen trên nền Cyan (color: #000) cùng hiệu ứng bóng glow Cyan để tạo sự tương phản cao và visual Cyberpunk đặc trưng. Các badge tech-noir nên dùng border kết hợp background mờ opacity thấp thay vì solid bg để tăng cảm giác hiện đại sắc bén.
+

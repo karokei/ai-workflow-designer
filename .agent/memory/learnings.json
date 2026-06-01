@@ -1,3 +1,9 @@
 {
-  "learnings": []
+  "learnings": [
+    {
+      "timestamp": "2026-06-01T20:50:00+07:00",
+      "task": "Mika Design System v1.0 Sync & Refactoring",
+      "insight": "Mika Design System v1.0 quy định rất nghiêm ngặt về màu sắc accent của brand là Electric Cyan (#00D4FF). Khi thiết kế button primary, bắt buộc phải dùng chữ đen trên nền Cyan (color: #000) cùng hiệu ứng bóng glow Cyan để tạo sự tương phản cao và visual Cyberpunk đặc trưng. Các badge tech-noir nên dùng border kết hợp background mờ opacity thấp thay vì solid bg để tăng cảm giác hiện đại sắc bén."
+    }
+  ]
 }
