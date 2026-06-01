@@ -484,7 +484,7 @@ export function SandboxView() {
     const toHeight = 84;
 
     // Output port is always on the right side middle of fromNode
-    let startX = fromNode.x + fromWidth;
+    const startX = fromNode.x + fromWidth;
     let startY = fromNode.y + fromHeight / 2;
 
     // Adjust port Y for IF branches (true branch on top right, false on bottom right)

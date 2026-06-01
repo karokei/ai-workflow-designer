@@ -89,7 +89,7 @@ export function CurriculumView({
       }
     };
 
-    loadPhase();
+    void loadPhase();
 
     return () => {
       isMounted = false;

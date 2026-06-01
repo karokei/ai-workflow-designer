@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import type { ChallengeBlock as ChallengeBlockType } from '@/types/curriculum';
 import type { ChallengeResult } from '@/types/progress';
 import { parseMarkdownLite } from '@/utils/markdown-lite';
+import { gradeChallenge } from '@/services/ai';
 import { 
   Play, 
   Sparkles, 
@@ -51,89 +52,14 @@ export function ChallengeBlock({
 
     setIsLoading(true);
 
-    // Simulate AI evaluation time (1.5s for premium realistic experience)
-    setTimeout(async () => {
-      const lowerCode = code.toLowerCase();
-      const matchedKeywords: string[] = [];
-      const missingKeywords: string[] = [];
-
-      block.expectedKeywords.forEach((kw) => {
-        if (lowerCode.includes(kw.toLowerCase())) {
-          matchedKeywords.push(kw);
-        } else {
-          missingKeywords.push(kw);
-        }
-      });
-
-      // Simple grading formula
-      const score = block.expectedKeywords.length > 0
-        ? Math.round((matchedKeywords.length / block.expectedKeywords.length) * 100)
-        : 100;
-
-      const status = score >= 80 ? "pass" : "fail";
-
-      // Compile detailed Vietnamese critique depending on keywords and language
-      let critiqueText = `### 🤖 Phản hồi từ AI Judge (AI-as-a-judge)
-`;
-
-      if (block.language === "prompt") {
-        critiqueText += `Bạn đã xây dựng System Prompt có ý thức thiết lập bối cảnh rõ ràng cho AI. `;
-        if (score === 100) {
-          critiqueText += `Thiết kế prompt của bạn rất xuất sắc, đáp ứng đầy đủ yêu cầu cấu trúc, xác định rõ **Vai trò (Role)**, **Giới hạn (Constraints)** và đặc biệt là ép cấu trúc đầu ra ở định dạng **JSON** có cấu trúc giúp an toàn khi tích hợp hệ thống.`;
-        } else if (score >= 60) {
-          critiqueText += `Cấu trúc cơ bản tương đối tốt. Tuy nhiên, hãy chú ý cấu hình chặt chẽ hơn. `;
-          if (missingKeywords.includes("JSON") || missingKeywords.includes("cấu trúc")) {
-            critiqueText += `\n\n⚠️ **Điểm cần cải thiện**: Thiếu chỉ thị ràng buộc định dạng **JSON**. Một AI Workflow Designer luôn cần ép dữ liệu đầu ra về dạng có cấu trúc để các node sau trong n8n/Make có thể đọc được dữ liệu.`;
-          }
-          if (missingKeywords.includes("System") || missingKeywords.includes("Constraints")) {
-            critiqueText += `\n\n⚠️ **Mẹo bảo mật**: Bạn nên tăng cường thêm chỉ dẫn bảo mật hệ thống để tránh tình trạng Prompt Injection hoặc AI bị nói sảng (Hallucination).`;
-          }
-        } else {
-          critiqueText += `Prompt của bạn còn sơ sài và mang tính chất đối thoại tự do giống Zero-shot hơn là System Prompt chuyên dụng. Bạn cần áp dụng mô hình Few-shot prompting hoặc định rõ vai trò và định dạng JSON đầu ra.`;
-        }
-      } else if (block.language === "javascript") {
-        critiqueText += `Mã nguồn JavaScript xử lý trong n8n Code Node của bạn cho thấy tư duy logic tốt. `;
-        if (score === 100) {
-          critiqueText += `Bạn đã sử dụng chuẩn các hàm duyệt mảng tối ưu (như \`map\` hoặc \`filter\`), đảm bảo trả về đúng định dạng chuẩn n8n cấu trúc \`{ json: { ... } }\`.`;
-        } else {
-          critiqueText += `Logic xử lý cơ bản khả thi nhưng chưa tối ưu hoặc thiếu cấu trúc chuẩn của n8n. `;
-          if (missingKeywords.includes("json")) {
-            critiqueText += `\n\n⚠️ **Lỗi cấu trúc n8n**: Trong n8n Code Node, mọi đối tượng trả về bắt buộc phải nằm trong thuộc tính \`json\` (ví dụ: \`return [{ json: { data } }]\`). Nếu thiếu, n8n sẽ báo lỗi và không thể truyền dữ liệu sang node kế tiếp.`;
-          }
-          if (missingKeywords.includes("map") && missingKeywords.includes("filter")) {
-            critiqueText += `\n\n💡 **Khuyên dùng**: Nên tận dụng các phương thức xử lý mảng ES6 như \`.map()\` hoặc \`.filter()\` thay vì vòng lặp \`for\` cổ điển để giữ mã nguồn ngắn gọn và tối ưu.`;
-          }
-        }
-      } else if (block.language === "python") {
-        critiqueText += `Kịch bản Python dọn dẹp dữ liệu của bạn có cấu trúc hàm rõ ràng. `;
-        if (score === 100) {
-          critiqueText += `Việc ứng dụng thư viện biểu thức chính quy \`re\` để xử lý khoảng trắng thừa và dọn dẹp thẻ HTML là giải pháp rất chuyên nghiệp và hiệu năng cao.`;
-        } else {
-          if (missingKeywords.includes("re") || missingKeywords.includes("sub")) {
-            critiqueText += `\n\n⚠️ **Điểm cần cải thiện**: Bạn nên import thư viện \`re\` và dùng phương thức \`re.sub(pattern, replacement, text)\` để dọn dẹp thẻ HTML và khoảng trắng thừa một cách triệt để thay vì dùng các hàm thay thế chuỗi thô sơ.`;
-          }
-        }
-      } else {
-        critiqueText += `Lời giải của bạn đã đáp ứng được một phần yêu cầu của bài tập thực tế. Hãy rà soát lại các từ khóa và đáp án tham khảo để tối ưu hóa thêm kịch bản.`;
-      }
-
-      if (score < 100 && missingKeywords.length > 0) {
-        critiqueText += `\n\n📋 **Từ khóa bị thiếu**: \`${missingKeywords.join(", ")}\``;
-      }
-
-      critiqueText += `\n\n💡 *AI-as-a-judge đã ghi nhận bài làm của bạn vào cơ sở dữ liệu IndexedDB cá nhân.*`;
-
-      const result: ChallengeResult = {
-        codeAnswer: code,
-        score,
-        feedback: critiqueText,
-        status,
-        gradedAt: new Date().toISOString(),
-      };
-
+    try {
+      const result = await gradeChallenge(code, block);
       await onSaveResult(result);
+    } catch (err: any) {
+      alert(err instanceof Error ? err.message : "Có lỗi xảy ra khi chấm điểm AI.");
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const getLanguageLabel = (lang: string) => {

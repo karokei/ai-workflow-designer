@@ -1,5 +1,5 @@
 // src/components/views/SearchView.tsx
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import type { UserProgress } from '@/types/progress';
 import { CURRICULUM } from '@/data/curriculum';
 import { Search, ChevronRight, FileText } from 'lucide-react';
@@ -24,7 +24,6 @@ interface SearchResult {
 export function SearchView({ progress, onSelectLesson }: SearchViewProps) {
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
-  const [results, setResults] = useState<SearchResult[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Debounce query input by 200ms
@@ -43,11 +42,10 @@ export function SearchView({ progress, onSelectLesson }: SearchViewProps) {
     }
   }, []);
 
-  // Run search query
-  useEffect(() => {
+  // Compute search results via useMemo to avoid state synchronization side-effects
+  const results = useMemo(() => {
     if (debouncedQuery.trim() === '') {
-      setResults([]);
-      return;
+      return [];
     }
 
     const keyword = debouncedQuery.toLowerCase().trim();
@@ -96,8 +94,9 @@ export function SearchView({ progress, onSelectLesson }: SearchViewProps) {
       });
     });
 
-    setResults(matches);
+    return matches;
   }, [debouncedQuery, progress.lessonNotes]);
+
 
   return (
     <div className="flex flex-col gap-6 max-w-3xl mx-auto">

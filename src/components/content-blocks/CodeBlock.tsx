@@ -25,7 +25,7 @@ export function CodeBlock({ block }: CodeBlockProps) {
   const handleDoubleTap = (e: React.MouseEvent<HTMLDivElement>) => {
     // Detect double click/tap
     if (e.detail === 2) {
-      handleCopy();
+      void handleCopy();
     }
   };
 

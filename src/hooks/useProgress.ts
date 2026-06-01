@@ -39,7 +39,7 @@ export function useProgress() {
       if (savedProgress) {
         setProgress(savedProgress);
       } else {
-        localforage.setItem(STORAGE_KEY, defaultProgress);
+        void localforage.setItem(STORAGE_KEY, defaultProgress);
       }
       setIsLoading(false);
     }).catch((err) => {

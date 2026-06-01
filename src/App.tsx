@@ -11,6 +11,7 @@ import { CurriculumView } from '@/components/views/CurriculumView';
 import { SearchView } from '@/components/views/SearchView';
 import { SandboxView } from '@/components/views/SandboxView';
 import { CURRICULUM } from '@/data/curriculum';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Award, Clock, Moon, Sun, Trash2 } from 'lucide-react';
 
 export function App() {
@@ -107,112 +108,114 @@ export function App() {
 
       {/* Main Content Viewport */}
       <main className="flex-1 pb-20 lg:pb-6 max-w-7xl w-full mx-auto px-4 lg:px-6 mt-4">
-        {currentView === 'overview' && (
-          <OverviewView
-            progress={progress}
-            onSelectPhase={(phaseId) => {
-              setSelectedPhaseId(phaseId);
-              setSelectedLessonId(null);
-              setCurrentView('curriculum');
-            }}
-          />
-        )}
-        {currentView === 'curriculum' && (
-          <CurriculumView
-            progress={progress}
-            selectedPhaseId={selectedPhaseId}
-            selectedLessonId={selectedLessonId}
-            onSelectPhase={setSelectedPhaseId}
-            onSelectLesson={setSelectedLessonId}
-            toggleLesson={toggleLesson}
-            saveNote={saveNote}
-            saveQuizResult={saveQuizResult}
-            saveChecklist={saveChecklist}
-            saveChallengeResult={saveChallengeResult}
-          />
-        )}
-        {currentView === 'search' && (
-          <SearchView
-            progress={progress}
-            onSelectLesson={(phaseId, lessonId) => {
-              setSelectedPhaseId(phaseId);
-              setSelectedLessonId(lessonId);
-              setCurrentView('curriculum');
-            }}
-          />
-        )}
-        {currentView === 'sandbox' && (
-          <SandboxView />
-        )}
-        
-        {/* Mobile Profile View Tab */}
-        {currentView === 'profile' && (
-          <div className="lg:hidden flex flex-col gap-6 animate-fade-in">
-            {/* User Bio Header */}
-            <div className="flex items-center gap-4 bg-bg-card p-4 rounded-xl border border-border">
-              <div className="w-12 h-12 rounded-full bg-accent text-black flex items-center justify-center font-mono font-bold text-lg shadow-glow-cyan-sm">
-                AI
-              </div>
-              <div className="flex flex-col">
-                <span className="text-base font-bold text-text-primary">Học Viên AI Workflow</span>
-                <span className="text-xs text-text-secondary">Lộ trình 12-18 tháng tự chủ</span>
-              </div>
-            </div>
-
-            {/* Mobile Stats Dashboard */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-bg-card p-4 rounded-xl border border-border flex flex-col gap-1">
-                <Award className="w-5 h-5 text-mika-success" />
-                <span className="text-xs text-text-secondary">Tiến độ tổng</span>
-                <span className="text-lg font-bold text-text-primary font-mono">{progressPercent}%</span>
-                <span className="text-[10px] text-text-muted">{completedCount}/{totalLessons} bài học</span>
-              </div>
- 
-              <div className="bg-bg-card p-4 rounded-xl border border-border flex flex-col gap-1">
-                <Clock className="w-5 h-5 text-accent" />
-                <span className="text-xs text-text-secondary">Giờ học tích lũy</span>
-                <span className="text-base font-bold text-text-primary font-mono truncate">
-                  {formatTotalTime(cumulativeSeconds)}
-                </span>
-                <span className="text-[10px] text-text-muted">Đang theo dõi</span>
-              </div>
-            </div>
-
-            {/* Application Configuration Options */}
-            <div className="bg-bg-card rounded-xl border border-border divide-y divide-border">
-              {/* Theme Selector */}
-              <div className="flex items-center justify-between p-4">
-                <span className="text-sm font-medium text-text-primary">Chế độ giao diện (Dark Mode)</span>
-                <button
-                  onClick={toggleTheme}
-                  className="p-2 rounded-lg border border-border bg-bg-secondary text-text-secondary hover:text-text-primary"
-                >
-                  {isDark ? <Sun className="w-4 h-4 text-mika-warning" /> : <Moon className="w-4 h-4 text-mika-blue" />}
-                </button>
-              </div>
-
-              {/* Data Reset Option */}
-              <div className="flex items-center justify-between p-4">
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-text-primary">Khởi động lại khóa học</span>
-                  <span className="text-[10px] text-text-muted">Xóa toàn bộ tiến trình học tập & ghi chú</span>
+        <ErrorBoundary>
+          {currentView === 'overview' && (
+            <OverviewView
+              progress={progress}
+              onSelectPhase={(phaseId) => {
+                setSelectedPhaseId(phaseId);
+                setSelectedLessonId(null);
+                setCurrentView('curriculum');
+              }}
+            />
+          )}
+          {currentView === 'curriculum' && (
+            <CurriculumView
+              progress={progress}
+              selectedPhaseId={selectedPhaseId}
+              selectedLessonId={selectedLessonId}
+              onSelectPhase={setSelectedPhaseId}
+              onSelectLesson={setSelectedLessonId}
+              toggleLesson={toggleLesson}
+              saveNote={saveNote}
+              saveQuizResult={saveQuizResult}
+              saveChecklist={saveChecklist}
+              saveChallengeResult={saveChallengeResult}
+            />
+          )}
+          {currentView === 'search' && (
+            <SearchView
+              progress={progress}
+              onSelectLesson={(phaseId, lessonId) => {
+                setSelectedPhaseId(phaseId);
+                setSelectedLessonId(lessonId);
+                setCurrentView('curriculum');
+              }}
+            />
+          )}
+          {currentView === 'sandbox' && (
+            <SandboxView />
+          )}
+          
+          {/* Mobile Profile View Tab */}
+          {currentView === 'profile' && (
+            <div className="lg:hidden flex flex-col gap-6 animate-fade-in">
+              {/* User Bio Header */}
+              <div className="flex items-center gap-4 bg-bg-card p-4 rounded-xl border border-border">
+                <div className="w-12 h-12 rounded-full bg-accent text-black flex items-center justify-center font-mono font-bold text-lg shadow-glow-cyan-sm">
+                  AI
                 </div>
-                <button
-                  onClick={() => {
-                    if (confirm("Bạn có chắc chắn muốn xóa toàn bộ tiến độ học tập và ghi chú? Hành động này không thể hoàn tác.")) {
-                      resetProgress();
-                      resetTimer();
-                      alert("Đã xóa toàn bộ tiến trình thành công!");
-                    }
-                  }}
-                  className="p-2 rounded-lg border border-mika-r600/30 bg-mika-r50 text-mika-r600 hover:bg-mika-r50/85 transition-colors"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                <div className="flex flex-col">
+                  <span className="text-base font-bold text-text-primary">Học Viên AI Workflow</span>
+                  <span className="text-xs text-text-secondary">Lộ trình 12-18 tháng tự chủ</span>
+                </div>
+              </div>
+  
+              {/* Mobile Stats Dashboard */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-bg-card p-4 rounded-xl border border-border flex flex-col gap-1">
+                  <Award className="w-5 h-5 text-mika-success" />
+                  <span className="text-xs text-text-secondary">Tiến độ tổng</span>
+                  <span className="text-lg font-bold text-text-primary font-mono">{progressPercent}%</span>
+                  <span className="text-[10px] text-text-muted">{completedCount}/{totalLessons} bài học</span>
+                </div>
+   
+                <div className="bg-bg-card p-4 rounded-xl border border-border flex flex-col gap-1">
+                  <Clock className="w-5 h-5 text-accent" />
+                  <span className="text-xs text-text-secondary">Giờ học tích lũy</span>
+                  <span className="text-base font-bold text-text-primary font-mono truncate">
+                    {formatTotalTime(cumulativeSeconds)}
+                  </span>
+                  <span className="text-[10px] text-text-muted">Đang theo dõi</span>
+                </div>
+              </div>
+  
+              {/* Application Configuration Options */}
+              <div className="bg-bg-card rounded-xl border border-border divide-y divide-border">
+                {/* Theme Selector */}
+                <div className="flex items-center justify-between p-4">
+                  <span className="text-sm font-medium text-text-primary">Chế độ giao diện (Dark Mode)</span>
+                  <button
+                    onClick={toggleTheme}
+                    className="p-2 rounded-lg border border-border bg-bg-secondary text-text-secondary hover:text-text-primary"
+                  >
+                    {isDark ? <Sun className="w-4 h-4 text-mika-warning" /> : <Moon className="w-4 h-4 text-mika-blue" />}
+                  </button>
+                </div>
+  
+                {/* Data Reset Option */}
+                <div className="flex items-center justify-between p-4">
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium text-text-primary">Khởi động lại khóa học</span>
+                    <span className="text-[10px] text-text-muted">Xóa toàn bộ tiến trình học tập & ghi chú</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      if (confirm("Bạn có chắc chắn muốn xóa toàn bộ tiến độ học tập và ghi chú? Hành động này không thể hoàn tác.")) {
+                        void resetProgress();
+                        resetTimer();
+                        alert("Đã xóa toàn bộ tiến trình thành công!");
+                      }
+                    }}
+                    className="p-2 rounded-lg border border-mika-r600/30 bg-mika-r50 text-mika-r600 hover:bg-mika-r50/85 transition-colors"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </ErrorBoundary>
       </main>
 
       {/* Mobile Floating HUD Timer FAB widget */}

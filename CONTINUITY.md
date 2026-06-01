@@ -1,9 +1,9 @@
 # CONTINUITY - Agent Execution State
 
 ## Current Session Details
-- **Date**: 2026-05-31
-- **Focus**: Mika Design System Fix — Spacing, Typography, Dark Mode, Token Consistency
-- **Status**: Design system cải thiện xong! NavBar tabs đúng border-radius, Stats HUD padding tốt hơn, Phase cards premium hơn, CSS tokens nhất quán.
+- **Date**: 2026-06-01
+- **Focus**: Technical Foundations & Reliability Optimizations (Phase 1 & Phase 2)
+- **Status**: Dự án đã tối ưu hóa toàn diện! README chuyên nghiệp, GitHub Actions CI tích hợp, Type-Aware ESLint và tsconfig cấu hình chuẩn, Test Coverage kích hoạt, ErrorBoundary Cyberpunk wrap bảo vệ hệ thống, AI Service Layer tách biệt với Rate Limiting & Google Gemini API + Offline Fallback. Build production & Test Suite (53/53 PASS) thành công rực rỡ!
 
 ## Tasks Checklist
 
@@ -82,10 +82,25 @@
 - [x] Step 9: Build đóng gói sản phẩm thành công 100% không cảnh báo lỗi
 - [x] Step 10: Commit thay đổi và lưu trữ bài học vào learnings.json
 
+### Task 9: Tối ưu hóa nền tảng kỹ thuật và chất lượng hệ thống (Giai đoạn 1 & Giai đoạn 2)
+- [x] Step 1: Viết lại tài liệu `README.md` mới chuyên nghiệp và cấu trúc thư mục hoàn chỉnh
+- [x] Step 2: Tạo tệp tin môi trường cấu hình mẫu `.env.example` và hướng dẫn bảo mật API key
+- [x] Step 3: Thiết lập GitHub Actions CI tự động hóa lint, test, build trong `.github/workflows/ci.yml`
+- [x] Step 4: Bật Type-Aware ESLint Rules trong `eslint.config.js` và dọn sạch 100% lỗi cú pháp và kiểu dữ liệu
+- [x] Step 5: Phiên bản hóa dự án lên `0.1.0` trong `package.json` và thiết lập `CHANGELOG.md` chuẩn Keep a Changelog
+- [x] Step 6: Cấu hình đo lường Test Coverage và tích hợp defineConfig từ `'vitest/config'` trong `vite.config.ts`
+- [x] Step 7: Sửa tsconfig.node.json bổ sung vitest types cho trình biên dịch TypeScript `tsc -b`
+- [x] Step 8: Tạo component `ErrorBoundary.tsx` phong cách Cyberpunk và wrap bảo vệ toàn bộ views chính trong `App.tsx`
+- [x] Step 9: Tách biệt AI Service Layer ra khỏi UI thành `src/services/ai.ts` hỗ trợ Client-side Rate Limiting, Google Gemini API, và Offline Fallback
+- [x] Step 10: Viết unit tests `ai.test.ts` cho AI Service và chạy thành công 53/53 tests PASS cùng build production pass 100%
+
 ## Learnings & Progress
+- Việc cấu hình `defineConfig` từ `'vitest/config'` thay vì `'vite'` giúp Vite tự động merge các kiểu Vitest `test` cực kỳ trang nhã mà không cần reference types thủ công trong compiler.
+- Kích hoạt Type-Aware ESLint Rules giúp phát hiện các floating promises nguy hiểm và type assertions dư thừa, nâng chất lượng code lên tầm cao mới.
+- Thiết kế một lớp AI Service riêng biệt giúp tách biệt hóa kiểm thử (TDD), đồng thời cơ chế Offline Fallback kết quả đối sánh từ khóa mang lại độ tin cậy tuyệt đối khi mất kết nối API mạng.
+- **53/53 tests PASS** xanh lá, không còn lỗi TypeScript tĩnh nào tồn đọng.
 - Trình chấm điểm AI-as-a-judge cục bộ tối ưu hóa độ trễ, hoàn toàn offline, dễ dàng tùy biến điều kiện keywords và biên soạn phản hồi tiếng Việt chuẩn nghiệp vụ.
 - Thiết kế visual canvas kéo thả kết hợp SVG Paths năng động với neon energy flows mang lại giao diện premium tinh tế cho học viện.
 - Vite và TypeScript hoạt động rất tốt trong việc kiểm soát các import type-only, split code, và tối ưu hóa bundles.
 - Đạt mốc **47/47 tests PASS** và hoàn thành xuất sắc toàn bộ Path B.
 - **Design System Fix (Session 6)**: Mika Design System v1.0 quy định nghiêm ngặt về màu sắc accent của brand là Electric Cyan (#00D4FF). Button primary bắt buộc dùng chữ đen trên nền Cyan (color: #000) cùng hiệu ứng bóng glow Cyan để tạo sự tương phản cao và visual Cyberpunk đặc trưng. Các badge tech-noir nên dùng border kết hợp background mờ opacity thấp thay vì solid bg để tăng cảm giác hiện đại sắc bén.
-

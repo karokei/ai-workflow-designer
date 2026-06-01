@@ -24,7 +24,7 @@ export function useTheme() {
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'aiwfd:theme' && (e.newValue === 'light' || e.newValue === 'dark')) {
-        setTheme(e.newValue as Theme);
+        setTheme(e.newValue);
       }
     };
     window.addEventListener('storage', handleStorageChange);
