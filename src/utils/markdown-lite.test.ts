@@ -24,7 +24,7 @@ describe('parseMarkdownLite', () => {
 
   it('should parse markdown links to safe HTML anchors', () => {
     const input = 'Check out [Google](https://google.com) now';
-    const expected = 'Check out <a href="https://google.com" class="text-mika-p600 hover:underline" target="_blank" rel="noopener noreferrer">Google</a> now';
+    const expected = 'Check out <a href="https://google.com" class="text-accent hover:underline" target="_blank" rel="noopener noreferrer">Google</a> now';
     expect(parseMarkdownLite(input)).toBe(expected);
   });
 

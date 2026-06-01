@@ -50,7 +50,7 @@ export function CodeBlock({ block }: CodeBlockProps) {
         >
           {copied ? (
             <>
-              <Check className="w-3.5 h-3.5 text-mika-a500" />
+              <Check className="w-3.5 h-3.5 text-mika-success" />
               <span>Đã chép</span>
             </>
           ) : (
@@ -99,7 +99,7 @@ export function CodeBlock({ block }: CodeBlockProps) {
           onClick={() => setWordWrap(!wordWrap)}
           className={`flex items-center gap-1 px-2.5 py-1 rounded transition-all active:scale-95 ${
             wordWrap
-              ? 'bg-mika-p600/80 text-white border border-mika-p500/40 font-semibold'
+              ? 'bg-accent/20 text-accent border border-accent/40 font-semibold'
               : 'bg-[#334155]/30 text-slate-300 border border-[#475569]/20 hover:bg-[#334155]'
           }`}
           title="Bật/Tắt Tự động xuống dòng"

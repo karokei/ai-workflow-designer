@@ -303,7 +303,7 @@ export function CurriculumView({
                   </span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-1 mb-0.5">
-                      <h4 className="text-xs font-bold text-text-primary truncate group-hover:text-mika-p600 transition-colors">
+                      <h4 className="text-xs font-bold text-text-primary truncate group-hover:text-accent transition-colors">
                         {phase.title}
                       </h4>
                       {locked ? (
@@ -428,7 +428,7 @@ export function CurriculumView({
                             <h3 className="text-sm font-bold text-text-primary tracking-tight">
                               {mod.title}
                             </h3>
-                            <span className="text-[10px] font-bold font-mono text-mika-p600 bg-mika-p50 dark:bg-mika-p800/10 px-1.5 py-0.5 rounded">
+                            <span className="text-[10px] font-bold font-mono text-accent bg-accent/10 border border-accent/20 px-1.5 py-0.5 rounded">
                               {mod.estimatedHours}h
                             </span>
                           </div>
@@ -449,7 +449,7 @@ export function CurriculumView({
                       {/* Progress thin bar below header */}
                       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-bg-secondary">
                         <div 
-                          className="h-full bg-mika-p600 transition-all duration-300"
+                          className="h-full bg-accent transition-all duration-300"
                           style={{ width: `${mProgress}%` }}
                         />
                       </div>
@@ -486,7 +486,7 @@ export function CurriculumView({
 
                                   <span
                                     onClick={() => handleToggleLessonDetail(lesson.id)}
-                                    className={`text-xs font-bold truncate cursor-pointer hover:text-mika-p500 transition-colors ${
+                                    className={`text-xs font-bold truncate cursor-pointer hover:text-accent transition-colors ${
                                       isDone ? 'text-text-muted line-through opacity-70' : 'text-text-primary'
                                     }`}
                                   >
@@ -560,7 +560,7 @@ export function CurriculumView({
                                             href={res.url}
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-bg-card hover:bg-bg-secondary text-xs text-text-primary hover:text-mika-p600 transition-all shadow-xs"
+                                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-bg-card hover:bg-bg-secondary text-xs text-text-primary hover:text-accent hover:border-accent/40 transition-all shadow-xs"
                                           >
                                             <span>{res.title}</span>
                                             <span className="text-[9px] px-1 bg-bg-secondary text-text-muted rounded capitalize">
@@ -580,7 +580,7 @@ export function CurriculumView({
                                       {!isEditingNote[lesson.id] && (
                                         <button
                                           onClick={() => startEditNote(lesson.id)}
-                                          className="flex items-center gap-1 text-[11px] font-semibold text-mika-p600 hover:text-mika-p700 transition-colors"
+                                          className="flex items-center gap-1 text-[11px] font-semibold text-accent hover:text-accent-hover transition-colors"
                                         >
                                           <Edit3 className="w-3 h-3" />
                                           <span>{progress.lessonNotes[lesson.id] ? 'Chỉnh sửa' : 'Thêm ghi chú'}</span>
@@ -595,7 +595,7 @@ export function CurriculumView({
                                           onChange={(e) => setTempNotes(prev => ({ ...prev, [lesson.id]: e.target.value }))}
                                           placeholder="Ghi lại các insight học tập, ghi chú kỹ thuật, API keys..."
                                           rows={4}
-                                          className="w-full text-xs p-3 bg-bg-card text-text-primary border border-border rounded-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-mika-p500 placeholder:text-text-muted font-mono leading-relaxed"
+                                          className="w-full text-xs p-3 bg-bg-card text-text-primary border border-border rounded-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent focus-visible:border-accent placeholder:text-text-muted font-mono leading-relaxed"
                                         />
                                         <div className="flex items-center gap-2 justify-end">
                                           <button
@@ -606,7 +606,7 @@ export function CurriculumView({
                                           </button>
                                           <button
                                             onClick={() => handleSaveNote(lesson.id)}
-                                            className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-mika-p600 hover:bg-mika-p700 text-white rounded-lg transition-all shadow-xs"
+                                            className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-accent hover:bg-accent-hover text-black font-semibold rounded-lg transition-all shadow-xs hover:shadow-glow-cyan"
                                           >
                                             <Save className="w-3.5 h-3.5" />
                                             <span>Lưu ghi chú</span>
@@ -662,7 +662,7 @@ export function CurriculumView({
                       locked
                         ? 'opacity-30 cursor-not-allowed border-border text-text-muted'
                         : active
-                        ? 'bg-mika-p600 text-white border-mika-p600 shadow-sm'
+                        ? 'bg-accent text-black border-accent shadow-glow-cyan font-bold'
                         : 'bg-bg-card border-border text-text-secondary hover:bg-bg-secondary'
                     }`}
                   >
@@ -675,13 +675,13 @@ export function CurriculumView({
 
             {/* Mobile Header Banner */}
             <div className="p-4 bg-bg-card border border-border rounded-xl flex flex-col gap-1.5">
-              <span className="text-[9px] font-bold font-mono text-mika-p600 uppercase">Phase {activePhase.id} Lộ trình</span>
+              <span className="text-[9px] font-bold font-mono text-accent uppercase">Phase {activePhase.id} Lộ trình</span>
               <h2 className="text-base font-bold text-text-primary tracking-tight">{activePhase.title}</h2>
               <p className="text-xs text-text-secondary leading-relaxed">{activePhase.subtitle}</p>
               
               <div className="flex items-center justify-between text-[10px] text-text-muted mt-2 border-t border-border-light pt-2">
                 <span>Outcome: {activePhase.milestone}</span>
-                <span className="font-bold text-mika-p600">{getPhaseProgress(activePhase.id)}%</span>
+                <span className="font-bold text-accent">{getPhaseProgress(activePhase.id)}%</span>
               </div>
             </div>
 
@@ -815,9 +815,9 @@ export function CurriculumView({
                       key={idx}
                       className={`h-1.5 rounded-full transition-all duration-300 ${
                         idx === currentSlideIndex
-                          ? 'w-6 bg-mika-p600'
+                          ? 'w-6 bg-accent'
                           : idx < currentSlideIndex
-                          ? 'w-2 bg-mika-a600'
+                          ? 'w-2 bg-mika-success'
                           : 'w-2 bg-border'
                       }`}
                     />
@@ -843,7 +843,7 @@ export function CurriculumView({
 
                       {/* Brief section in glass container */}
                       <div className="p-4 bg-bg-secondary/40 border border-border rounded-xl">
-                        <span className="text-[10px] font-bold text-mika-p600 uppercase block mb-1">Khái quát bài học</span>
+                        <span className="text-[10px] font-bold text-accent uppercase block mb-1">Khái quát bài học</span>
                         <p className="text-xs text-text-secondary leading-relaxed italic">
                           "{slide.summary}"
                         </p>
@@ -929,7 +929,7 @@ export function CurriculumView({
                     <div className="flex flex-col gap-4 animate-slide-in">
                       <div className="flex flex-col gap-1">
                         <h4 className="text-sm font-bold text-text-primary flex items-center gap-1.5">
-                          <NotebookPen className="w-4 h-4 text-mika-p500" />
+                          <NotebookPen className="w-4 h-4 text-accent" />
                           <span>Sổ tay AI Designer</span>
                         </h4>
                         <p className="text-[11px] text-text-secondary leading-relaxed">
@@ -946,7 +946,7 @@ export function CurriculumView({
                               onChange={(e) => setTempNotes(prev => ({ ...prev, [lesson.id]: e.target.value }))}
                               placeholder="Nhập ghi chú cá nhân, mã lệnh, lỗi thường gặp..."
                               rows={5}
-                              className="w-full text-xs p-3 bg-bg-secondary/40 border border-border rounded-xl focus:outline-none focus:ring-1 focus:ring-mika-p500 font-mono leading-relaxed"
+                              className="w-full text-xs p-3 bg-bg-secondary/40 border border-border rounded-xl focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent font-mono leading-relaxed"
                             />
                             <div className="flex items-center gap-2 justify-end">
                               <button
@@ -957,7 +957,7 @@ export function CurriculumView({
                               </button>
                               <button
                                 onClick={() => handleSaveNote(lesson.id)}
-                                className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs bg-mika-p600 text-white rounded-lg"
+                                className="flex items-center gap-1.5 px-3.5 py-1.5 text-xs bg-accent hover:bg-accent-hover text-black font-semibold rounded-lg hover:shadow-glow-cyan transition-all"
                               >
                                 <Save className="w-3.5 h-3.5" />
                                 <span>Lưu lại</span>
@@ -980,7 +980,7 @@ export function CurriculumView({
 
                             <button
                               onClick={() => startEditNote(lesson.id)}
-                              className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold text-mika-p600 border border-mika-p600/30 bg-mika-p50/40 hover:bg-mika-p50/80 active:scale-95 transition-all"
+                              className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold text-accent border border-accent/30 bg-accent/5 hover:bg-accent/10 active:scale-95 transition-all"
                             >
                               <Edit3 className="w-3.5 h-3.5" />
                               <span>{progress.lessonNotes[lesson.id] ? 'Cập nhật ghi chú' : 'Viết ghi chú bài học'}</span>
@@ -1032,10 +1032,10 @@ export function CurriculumView({
 
                   <button
                     onClick={handleNext}
-                    className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold text-white transition-all active:scale-95 ${
+                    className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all active:scale-95 ${
                       isLastSlide
-                        ? 'bg-mika-a600 hover:bg-mika-a700 shadow-md'
-                        : 'bg-mika-p600 hover:bg-mika-p700 shadow-md'
+                        ? 'bg-mika-success hover:bg-mika-success/90 text-black shadow-glow-cyan-sm'
+                        : 'bg-accent hover:bg-accent-hover text-black shadow-glow-cyan'
                     }`}
                   >
                     <span>{isLastSlide ? 'Hoàn tất' : 'Kế tiếp'}</span>

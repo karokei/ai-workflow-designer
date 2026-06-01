@@ -110,7 +110,7 @@ export function SearchView({ progress, onSelectLesson }: SearchViewProps) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Tìm kiếm bài học... (ví dụ: 'API', 'Webhook', 'RAG')"
-          className="w-full h-11 pl-11 pr-4 text-sm rounded-lg border border-border bg-bg-card text-text-pri focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mika-p500/50 placeholder:text-text-muted transition-all"
+          className="w-full h-11 pl-11 pr-4 text-sm rounded-lg border border-border bg-bg-card text-text-pri focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:border-accent placeholder:text-text-muted transition-all"
         />
       </div>
 
@@ -142,22 +142,22 @@ export function SearchView({ progress, onSelectLesson }: SearchViewProps) {
                 <div
                   key={res.lessonId}
                   onClick={() => onSelectLesson(res.phaseId, res.lessonId)}
-                  className="group flex items-center justify-between p-4 bg-bg-card border border-border hover:border-mika-p400 rounded-xl transition-all duration-200 cursor-pointer shadow-xs"
+                  className="group flex items-center justify-between p-4 bg-bg-card border border-border hover:border-accent rounded-xl transition-all duration-200 cursor-pointer shadow-xs"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-bg-secondary border border-border-light flex items-center justify-center text-text-sec group-hover:text-mika-p500 transition-colors">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-bg-secondary border border-border-light flex items-center justify-center text-text-sec group-hover:text-accent transition-colors">
                       <FileText className="w-4 h-4" />
                     </div>
                     <div className="flex flex-col gap-0.5">
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-[9px] font-bold text-mika-p600 bg-mika-p50 dark:bg-mika-p800/10 dark:text-mika-p400 px-1.5 py-0.5 rounded">
+                        <span className="text-[9px] font-bold text-accent bg-accent/10 border border-accent/20 px-1.5 py-0.5 rounded">
                           Phase {res.phaseId}
                         </span>
                         <span className="text-[9px] font-semibold text-text-muted">
                           {res.moduleTitle}
                         </span>
                       </div>
-                      <h4 className="text-sm font-bold text-text-pri group-hover:text-mika-p500 transition-colors">
+                      <h4 className="text-sm font-bold text-text-pri group-hover:text-accent transition-colors">
                         {res.lessonTitle}
                       </h4>
                       <p className="text-xs text-text-sec line-clamp-1">
@@ -165,7 +165,7 @@ export function SearchView({ progress, onSelectLesson }: SearchViewProps) {
                       </p>
                     </div>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-text-muted group-hover:text-mika-p500 group-hover:translate-x-0.5 transition-all" />
+                  <ChevronRight className="w-4 h-4 text-text-muted group-hover:text-accent group-hover:translate-x-0.5 transition-all" />
                 </div>
               ))}
             </div>

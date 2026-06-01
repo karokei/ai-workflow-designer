@@ -17,19 +17,19 @@ export function BottomNav({ currentView, setCurrentView }: BottomNavProps) {
         <Compass
           className={`w-5 h-5 transition-transform duration-200 ${
             currentView === 'overview'
-              ? 'text-mika-p500 scale-110 filter drop-shadow-[0_0_6px_rgba(99,102,241,0.5)]'
+              ? 'text-accent scale-110 filter drop-shadow-[0_0_6px_rgba(0,212,255,0.5)]'
               : 'text-text-secondary hover:text-text-primary'
           }`}
         />
         <span
           className={`text-[9px] font-semibold tracking-tight transition-colors duration-200 ${
-            currentView === 'overview' ? 'text-mika-p500 font-bold' : 'text-text-muted'
+            currentView === 'overview' ? 'text-accent font-bold' : 'text-text-muted'
           }`}
         >
           Lộ trình
         </span>
         {currentView === 'overview' && (
-          <div className="absolute bottom-0 w-8 h-[2px] bg-mika-p500 rounded-full shadow-[0_0_8px_#6366f1]" />
+          <div className="absolute bottom-0 w-8 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
         )}
       </button>
 
@@ -41,19 +41,19 @@ export function BottomNav({ currentView, setCurrentView }: BottomNavProps) {
         <BookOpen
           className={`w-5 h-5 transition-transform duration-200 ${
             currentView === 'curriculum'
-              ? 'text-mika-p500 scale-110 filter drop-shadow-[0_0_6px_rgba(99,102,241,0.5)]'
+              ? 'text-accent scale-110 filter drop-shadow-[0_0_6px_rgba(0,212,255,0.5)]'
               : 'text-text-secondary hover:text-text-primary'
           }`}
         />
         <span
           className={`text-[9px] font-semibold tracking-tight transition-colors duration-200 ${
-            currentView === 'curriculum' ? 'text-mika-p500 font-bold' : 'text-text-muted'
+            currentView === 'curriculum' ? 'text-accent font-bold' : 'text-text-muted'
           }`}
         >
           Học tập
         </span>
         {currentView === 'curriculum' && (
-          <div className="absolute bottom-0 w-8 h-[2px] bg-mika-p500 rounded-full shadow-[0_0_8px_#6366f1]" />
+          <div className="absolute bottom-0 w-8 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
         )}
       </button>
 
@@ -65,19 +65,19 @@ export function BottomNav({ currentView, setCurrentView }: BottomNavProps) {
         <Search
           className={`w-5 h-5 transition-transform duration-200 ${
             currentView === 'search'
-              ? 'text-mika-p500 scale-110 filter drop-shadow-[0_0_6px_rgba(99,102,241,0.5)]'
+              ? 'text-accent scale-110 filter drop-shadow-[0_0_6px_rgba(0,212,255,0.5)]'
               : 'text-text-secondary hover:text-text-primary'
           }`}
         />
         <span
           className={`text-[9px] font-semibold tracking-tight transition-colors duration-200 ${
-            currentView === 'search' ? 'text-mika-p500 font-bold' : 'text-text-muted'
+            currentView === 'search' ? 'text-accent font-bold' : 'text-text-muted'
           }`}
         >
           Tìm kiếm
         </span>
         {currentView === 'search' && (
-          <div className="absolute bottom-0 w-8 h-[2px] bg-mika-p500 rounded-full shadow-[0_0_8px_#6366f1]" />
+          <div className="absolute bottom-0 w-8 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
         )}
       </button>
 
@@ -89,19 +89,19 @@ export function BottomNav({ currentView, setCurrentView }: BottomNavProps) {
         <Zap
           className={`w-5 h-5 transition-transform duration-200 ${
             currentView === 'sandbox'
-              ? 'text-mika-p500 scale-110 filter drop-shadow-[0_0_6px_rgba(99,102,241,0.5)]'
+              ? 'text-accent scale-110 filter drop-shadow-[0_0_6px_rgba(0,212,255,0.5)]'
               : 'text-text-secondary hover:text-text-primary'
           }`}
         />
         <span
           className={`text-[9px] font-semibold tracking-tight transition-colors duration-200 ${
-            currentView === 'sandbox' ? 'text-mika-p500 font-bold' : 'text-text-muted'
+            currentView === 'sandbox' ? 'text-accent font-bold' : 'text-text-muted'
           }`}
         >
           Giả lập
         </span>
         {currentView === 'sandbox' && (
-          <div className="absolute bottom-0 w-8 h-[2px] bg-mika-p500 rounded-full shadow-[0_0_8px_#6366f1]" />
+          <div className="absolute bottom-0 w-8 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
         )}
       </button>
 
@@ -113,19 +113,19 @@ export function BottomNav({ currentView, setCurrentView }: BottomNavProps) {
         <User
           className={`w-5 h-5 transition-transform duration-200 ${
             currentView === 'profile'
-              ? 'text-mika-p500 scale-110 filter drop-shadow-[0_0_6px_rgba(99,102,241,0.5)]'
+              ? 'text-accent scale-110 filter drop-shadow-[0_0_6px_rgba(0,212,255,0.5)]'
               : 'text-text-secondary hover:text-text-primary'
           }`}
         />
         <span
           className={`text-[9px] font-semibold tracking-tight transition-colors duration-200 ${
-            currentView === 'profile' ? 'text-mika-p500 font-bold' : 'text-text-muted'
+            currentView === 'profile' ? 'text-accent font-bold' : 'text-text-muted'
           }`}
         >
           Cá nhân
         </span>
         {currentView === 'profile' && (
-          <div className="absolute bottom-0 w-8 h-[2px] bg-mika-p500 rounded-full shadow-[0_0_8px_#6366f1]" />
+          <div className="absolute bottom-0 w-8 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
         )}
       </button>
     </nav>

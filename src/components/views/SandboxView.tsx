@@ -444,9 +444,9 @@ export function SandboxView() {
   const getNodeIcon = (type: string, status: string = 'idle') => {
     const iconClass = `w-4 h-4 ${
       status === 'running' 
-        ? 'animate-spin text-mika-p600' 
+        ? 'animate-spin text-accent' 
         : status === 'success' 
-        ? 'text-emerald-500' 
+        ? 'text-mika-success' 
         : 'text-text-secondary'
     }`;
 
@@ -465,9 +465,9 @@ export function SandboxView() {
   // Node styles helper
   const getNodeBorder = (node: NodeInstance) => {
     const isSelected = selectedNodeId === node.id;
-    if (node.status === 'running') return 'border-indigo-500 shadow-[0_0_12px_rgba(99,102,241,0.4)]';
-    if (node.status === 'success') return 'border-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]';
-    if (isSelected) return 'border-mika-p600 shadow-[0_0_8px_rgba(99,102,241,0.2)]';
+    if (node.status === 'running') return 'border-accent shadow-[0_0_12px_rgba(0,212,255,0.4)]';
+    if (node.status === 'success') return 'border-mika-success shadow-[0_0_10px_rgba(0,229,160,0.3)]';
+    if (isSelected) return 'border-accent shadow-[0_0_8px_rgba(0,212,255,0.25)]';
     return 'border-border hover:border-text-muted';
   };
 
@@ -535,7 +535,7 @@ export function SandboxView() {
         <section className="bg-bg-card border border-border p-4.5 rounded-2xl shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <Activity className="w-5 h-5 text-mika-p600" />
+              <Activity className="w-5 h-5 text-accent animate-pulse" />
               <h2 className="text-sm font-bold text-text-primary tracking-tight uppercase">Giả lập n8n/Make Sandbox</h2>
             </div>
             <p className="text-[11px] text-text-secondary leading-relaxed">
@@ -548,7 +548,7 @@ export function SandboxView() {
             <select
               value={selectedTemplateKey}
               onChange={(e) => handleSelectTemplate(e.target.value)}
-              className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-xl focus:outline-none focus:ring-1 focus:ring-mika-p500 font-semibold text-text-primary transition-all cursor-pointer"
+              className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-xl focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent font-semibold text-text-primary transition-all cursor-pointer"
             >
               {Object.entries(TEMPLATES).map(([key, t]) => (
                 <option key={key} value={key}>{t.name}</option>
@@ -754,7 +754,7 @@ export function SandboxView() {
         {/* Node Properties Configurations Panel */}
         <section className="bg-bg-card border border-border p-4.5 rounded-2xl shadow-xs">
           <div className="flex items-center gap-2 border-b border-border-light pb-2.5 mb-3.5">
-            <SlidersHorizontal className="w-4 h-4 text-mika-p600" />
+            <SlidersHorizontal className="w-4 h-4 text-accent" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-text-primary">Cấu hình Node Tham Số</h3>
           </div>
 
@@ -939,7 +939,7 @@ export function SandboxView() {
         <section className="bg-bg-card border border-border p-4.5 rounded-2xl shadow-xs flex-1 flex flex-col min-h-[220px]">
           <div className="flex items-center justify-between border-b border-border-light pb-2.5 mb-3">
             <div className="flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-mika-p600" />
+              <Terminal className="w-4 h-4 text-accent" />
               <h3 className="text-xs font-bold uppercase tracking-wider text-text-primary">Nhật Ký Thực Thi (JSON Logs)</h3>
             </div>
             {runs.length > 0 && (
@@ -960,7 +960,7 @@ export function SandboxView() {
                     onClick={() => setActiveRunIndex(idx)}
                     className={`flex items-center justify-between w-full p-2 rounded-lg border text-left transition-all ${
                       isActive 
-                        ? 'border-indigo-600/30 bg-indigo-500/5 dark:bg-indigo-950/5' 
+                        ? 'border-accent/30 bg-accent/5 dark:bg-accent/5' 
                         : 'border-border bg-bg-secondary/40 hover:bg-bg-secondary'
                     }`}
                   >
@@ -997,7 +997,7 @@ export function SandboxView() {
                 <div className="flex flex-col gap-3 font-mono text-[9px] leading-relaxed text-slate-200">
                   {runs[activeRunIndex].logs.map((log: any, lIdx: number) => (
                     <div key={lIdx} className="flex flex-col gap-1 border-l-2 border-slate-700 pl-2">
-                      <span className="text-[9px] font-bold text-indigo-400">{log.node}</span>
+                      <span className="text-[9px] font-bold text-accent">{log.node}</span>
                       <div className="flex flex-col gap-0.5 text-[8.5px] text-slate-300">
                         {Object.keys(log.input).length > 0 && (
                           <div>

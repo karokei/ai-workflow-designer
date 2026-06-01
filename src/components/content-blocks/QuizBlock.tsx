@@ -56,7 +56,7 @@ export function QuizBlock({ block, quizIndex, savedAnswer, onSelectAnswer }: Qui
     <div className="flex flex-col my-6 p-5 bg-bg-card border border-border rounded-xl shadow-xs transition-all duration-300 animate-fade-in">
       {/* Quiz Title & Header */}
       <div className="flex items-center gap-2 mb-3.5 pb-2 border-b border-border-light">
-        <span className="flex items-center justify-center w-5 h-5 rounded-full bg-mika-p50 dark:bg-mika-p800/10 text-[10px] font-bold text-mika-p600 dark:text-mika-p400 font-mono">
+        <span className="flex items-center justify-center w-5 h-5 rounded-full bg-accent/10 border border-accent/25 text-[10px] font-bold text-accent font-mono">
           Q{quizIndex + 1}
         </span>
         <h4 className="text-xs font-bold uppercase tracking-wider text-text-sec">
@@ -76,23 +76,23 @@ export function QuizBlock({ block, quizIndex, savedAnswer, onSelectAnswer }: Qui
           const isOptionCorrect = idx === block.correct;
 
           // Determine option styling classes based on state
-          let optionStyle = 'border-border bg-bg-secondary/40 text-text-pri hover:border-mika-p300 hover:bg-bg-secondary/80';
+          let optionStyle = 'border-border bg-bg-secondary/40 text-text-pri hover:border-accent/40 hover:bg-accent/5';
           let badgeStyle = 'bg-bg-secondary text-text-sec border-border';
 
           if (isSelected) {
-            optionStyle = 'border-mika-p500 bg-mika-p50/30 text-text-pri';
-            badgeStyle = 'bg-mika-p600 text-white border-mika-p600';
+            optionStyle = 'border-accent bg-accent/10 text-text-pri font-semibold shadow-glow-cyan-sm';
+            badgeStyle = 'bg-accent text-black border-accent';
           }
 
           if (isSubmitted) {
             if (isOptionCorrect) {
               // Highlight correct answer in green
-              optionStyle = 'border-mika-a600 bg-mika-a50/30 text-text-pri';
-              badgeStyle = 'bg-mika-a600 text-white border-mika-a600';
+              optionStyle = 'border-mika-success bg-mika-success/10 text-text-pri';
+              badgeStyle = 'bg-mika-success text-black border-mika-success';
             } else if (isSelected && !isOptionCorrect) {
               // Highlight incorrect user choice in red
-              optionStyle = 'border-mika-r600 bg-mika-r50/30 text-text-pri';
-              badgeStyle = 'bg-mika-r600 text-white border-mika-r600';
+              optionStyle = 'border-mika-error bg-mika-error/10 text-text-pri';
+              badgeStyle = 'bg-mika-error text-white border-mika-error';
             } else {
               // Non-selected incorrect options are muted/disabled
               optionStyle = 'border-border bg-bg-secondary/20 text-text-muted opacity-60';
@@ -122,10 +122,10 @@ export function QuizBlock({ block, quizIndex, savedAnswer, onSelectAnswer }: Qui
           <button
             onClick={handleSubmit}
             disabled={selectedOption === null}
-            className={`w-full py-2.5 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer ${
+            className={`w-full py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
               selectedOption === null
                 ? 'bg-bg-secondary text-text-muted border border-border cursor-not-allowed opacity-60'
-                : 'bg-mika-p600 hover:bg-mika-p700 text-white'
+                : 'bg-accent hover:bg-accent-hover text-black shadow-glow-cyan'
             }`}
           >
             Kiểm tra đáp án
@@ -135,18 +135,18 @@ export function QuizBlock({ block, quizIndex, savedAnswer, onSelectAnswer }: Qui
             {/* Answer Feedback Banner */}
             <div className={`flex items-start gap-3 p-3.5 rounded-lg border text-xs leading-relaxed ${
               isCorrect
-                ? 'bg-mika-a50/40 border-mika-a600/30 text-text-primary'
-                : 'bg-mika-r50/40 border-mika-r600/30 text-text-primary'
+                ? 'bg-mika-success/10 border-mika-success/30 text-text-primary'
+                : 'bg-mika-error/10 border-mika-error/30 text-text-primary'
             }`}>
               <div className="flex-shrink-0 mt-0.5">
                 {isCorrect ? (
-                  <CheckCircle2 className="w-4.5 h-4.5 text-mika-a600" />
+                  <CheckCircle2 className="w-4.5 h-4.5 text-mika-success" />
                 ) : (
-                  <XCircle className="w-4.5 h-4.5 text-mika-r600" />
+                  <XCircle className="w-4.5 h-4.5 text-mika-error" />
                 )}
               </div>
               <div className="flex flex-col gap-1">
-                <span className={`font-bold ${isCorrect ? 'text-mika-a700 dark:text-mika-a500' : 'text-mika-r700 dark:text-mika-r600'}`}>
+                <span className={`font-bold ${isCorrect ? 'text-mika-success dark:text-mika-success' : 'text-mika-error dark:text-mika-error'}`}>
                   {isCorrect ? 'Chính xác! Đáp án đúng.' : 'Chưa chính xác rồi!'}
                 </span>
                 <span className="text-text-sec text-[11px] leading-relaxed">

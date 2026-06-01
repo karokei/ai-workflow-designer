@@ -12,7 +12,7 @@ export function ListBlock({ block }: ListBlockProps) {
       <ul className="list-none pl-1 flex flex-col gap-2 mb-4 animate-fade-in">
         {block.items.map((item, idx) => (
           <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-text-secondary">
-            <span className="text-mika-p500 font-bold mt-0.5">•</span>
+            <span className="text-accent font-bold mt-0.5">•</span>
             <span dangerouslySetInnerHTML={{ __html: parseMarkdownLite(item) }} />
           </li>
         ))}

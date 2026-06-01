@@ -151,12 +151,12 @@ export function ChallengeBlock({
       {/* Challenge Title Banner */}
       <div className="flex items-center justify-between border-b border-border-light pb-3">
         <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-mika-p600" />
+          <Sparkles className="w-4 h-4 text-accent" />
           <h4 className="text-xs font-bold text-text-primary tracking-tight">
             Thách thức thực chiến: {block.title}
           </h4>
         </div>
-        <span className="text-[9px] font-bold font-mono px-2 py-0.5 border border-mika-p200 bg-mika-p50/40 dark:border-mika-p800/20 dark:bg-mika-p950/20 text-mika-p600 rounded">
+        <span className="text-[9px] font-bold font-mono px-2 py-0.5 border border-accent/20 bg-accent/5 text-accent rounded">
           {getLanguageLabel(block.language)}
         </span>
       </div>
@@ -195,7 +195,7 @@ export function ChallengeBlock({
           onChange={(e) => setCode(e.target.value)}
           placeholder={block.language === "prompt" ? "Hãy soạn thảo System Prompt của bạn tại đây..." : "Hãy viết mã nguồn giải thuật tại đây..."}
           rows={7}
-          className="w-full p-4 bg-slate-900 text-slate-200 text-xs font-mono leading-relaxed focus:outline-none border-none resize-y selection:bg-mika-p500/30 selection:text-white"
+          className="w-full p-4 bg-slate-900 text-slate-200 text-xs font-mono leading-relaxed focus:outline-none border-none resize-y selection:bg-accent/20 selection:text-white"
         />
       </div>
 
@@ -216,20 +216,20 @@ export function ChallengeBlock({
         <button
           disabled={isLoading}
           onClick={handleGrade}
-          className={`flex items-center gap-1.5 px-4.5 py-2 rounded-xl text-xs font-bold text-white shadow-md active:scale-95 transition-all focus:outline-none ${
+          className={`flex items-center gap-1.5 px-4.5 py-2 rounded-xl text-xs font-bold active:scale-95 transition-all focus:outline-none ${
             isLoading 
-              ? 'bg-slate-700/50 cursor-not-allowed border-none' 
-              : 'bg-mika-p600 hover:bg-mika-p700 shadow-mika-p500/10'
+              ? 'bg-slate-700/50 text-slate-400 cursor-not-allowed border-none' 
+              : 'bg-accent hover:bg-accent-hover text-black shadow-glow-cyan'
           }`}
         >
           {isLoading ? (
             <>
-              <div className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              <div className="w-3.5 h-3.5 border-2 border-slate-400/40 border-t-slate-400 rounded-full animate-spin" />
               <span>AI đang chấm bài...</span>
             </>
           ) : (
             <>
-              <Play className="w-3.5 h-3.5 fill-white stroke-none" />
+              <Play className="w-3.5 h-3.5 fill-black stroke-none animate-pulse" />
               <span>Chạy thử & Chấm điểm</span>
             </>
           )}
@@ -238,11 +238,11 @@ export function ChallengeBlock({
 
       {/* AI Judge Loading Neon Overlay (Premium UX) */}
       {isLoading && (
-        <div className="flex flex-col items-center justify-center p-8 border border-dashed border-mika-p300/40 bg-mika-p50/5 dark:bg-mika-p950/5 rounded-xl animate-pulse mt-2 transition-all">
+        <div className="flex flex-col items-center justify-center p-8 border border-dashed border-accent/20 bg-accent/5 rounded-xl animate-pulse mt-2 transition-all">
           <div className="relative w-12 h-12 mb-3">
-            <div className="absolute inset-0 rounded-full border-3 border-t-transparent animate-spin" style={{ borderColor: 'rgba(99,102,241,0.2)', borderTopColor: '#6366f1' }} />
+            <div className="absolute inset-0 rounded-full border-3 border-t-transparent animate-spin" style={{ borderColor: 'var(--mika-cyan-glow)', borderTopColor: 'var(--mika-cyan)' }} />
           </div>
-          <span className="text-[10px] font-bold font-mono tracking-widest text-mika-p600 uppercase">
+          <span className="text-[10px] font-bold font-mono tracking-widest text-accent uppercase">
             AI Agent is Auditing your work...
           </span>
         </div>

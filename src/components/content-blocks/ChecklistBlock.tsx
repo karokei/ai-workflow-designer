@@ -30,9 +30,9 @@ export function ChecklistBlock({
               onClick={() => onSelectChecklistItem && onSelectChecklistItem(idx)}
               className="flex items-start gap-3 text-left w-full hover:bg-bg-secondary/50 p-2 rounded-lg transition-colors cursor-pointer select-none"
             >
-              <span className="flex-shrink-0 mt-0.5 text-mika-p600">
+              <span className="flex-shrink-0 mt-0.5 text-accent">
                 {isChecked ? (
-                  <CheckSquare className="w-4.5 h-4.5 text-mika-a600" />
+                  <CheckSquare className="w-4.5 h-4.5 text-mika-success" />
                 ) : (
                   <Square className="w-4.5 h-4.5 text-text-muted" />
                 )}

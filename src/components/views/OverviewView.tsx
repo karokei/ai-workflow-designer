@@ -61,9 +61,9 @@ export function OverviewView({ progress, onSelectPhase }: OverviewViewProps) {
   return (
     <div className="flex flex-col gap-6 lg:gap-8 pb-10 animate-fade-in">
       {/* 1. Stats HUD Bar */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-bg-card p-5 lg:p-6 rounded-2xl border border-border shadow-sm">
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-bg-card p-5 lg:p-6 rounded-r-xl border border-border shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-mika-p50 text-mika-p600 dark:bg-mika-p800/20 dark:text-mika-p400 shadow-sm">
+          <div className="w-11 h-11 rounded-r-md flex items-center justify-center bg-accent/10 text-accent border border-accent/20 shadow-sm">
             <BookOpen className="w-5 h-5" />
           </div>
           <div className="flex flex-col gap-0.5">
@@ -73,7 +73,7 @@ export function OverviewView({ progress, onSelectPhase }: OverviewViewProps) {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-mika-a50 text-mika-a600 dark:bg-mika-a700/10 dark:text-mika-a500 shadow-sm">
+          <div className="w-11 h-11 rounded-r-md flex items-center justify-center bg-mika-a50 text-mika-a600 dark:bg-mika-a700/10 dark:text-mika-a500 shadow-sm">
             <CheckCircle className="w-5 h-5" />
           </div>
           <div className="flex flex-col gap-0.5">
@@ -83,7 +83,7 @@ export function OverviewView({ progress, onSelectPhase }: OverviewViewProps) {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-mika-v50 text-mika-v600 dark:bg-mika-v600/10 dark:text-mika-v600 shadow-sm">
+          <div className="w-11 h-11 rounded-r-md flex items-center justify-center bg-mika-v50 text-mika-v600 dark:bg-mika-v600/10 dark:text-mika-v600 shadow-sm">
             <Clock className="w-5 h-5" />
           </div>
           <div className="flex flex-col gap-0.5">
@@ -93,7 +93,7 @@ export function OverviewView({ progress, onSelectPhase }: OverviewViewProps) {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-mika-t50 text-mika-t600 dark:bg-mika-t600/10 dark:text-mika-t600 shadow-sm">
+          <div className="w-11 h-11 rounded-r-md flex items-center justify-center bg-mika-t50 text-mika-t600 dark:bg-mika-t600/10 dark:text-mika-t600 shadow-sm">
             <Award className="w-5 h-5" />
           </div>
           <div className="flex flex-col gap-0.5">
@@ -134,7 +134,7 @@ export function OverviewView({ progress, onSelectPhase }: OverviewViewProps) {
                     borderColor: locked ? 'var(--border)' : nodeColor,
                     boxShadow: locked ? 'none' : `0 0 15px ${nodeColor}30`,
                   }}
-                  className={`w-16 h-16 rounded-2xl flex items-center justify-center bg-bg-card border-2 relative focus:outline-none`}
+                  className={`w-16 h-16 rounded-r-xl flex items-center justify-center bg-bg-card border-2 relative focus:outline-none`}
                 >
                   <span className="text-2xl">{phase.icon}</span>
 
@@ -193,10 +193,10 @@ export function OverviewView({ progress, onSelectPhase }: OverviewViewProps) {
                   '--phase-color': activeColor,
                   borderColor: locked ? 'var(--border)' : 'transparent',
                 } as React.CSSProperties}
-                className={`group flex flex-col bg-bg-card border-2 rounded-2xl overflow-hidden shadow-sm transition-all duration-300 relative select-none ${
+                className={`group flex flex-col bg-bg-card border rounded-r-lg overflow-hidden shadow-sm transition-all duration-300 relative select-none ${
                   locked
                     ? 'opacity-45 cursor-not-allowed'
-                    : 'cursor-pointer hover:shadow-lg hover:-translate-y-1.5'
+                    : 'cursor-pointer hover:border-border-accent hover:shadow-glow-cyan-sm hover:-translate-y-1.5'
                 }`}
               >
                 {/* Top gradient accent bar */}

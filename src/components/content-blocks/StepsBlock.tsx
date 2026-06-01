@@ -21,7 +21,7 @@ export function StepsBlock({ block }: StepsBlockProps) {
         {block.steps.map((step, idx) => (
           <div key={idx} className="flex gap-4 pb-6 last:pb-2 relative z-10 group">
             {/* Step indicator circle */}
-            <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-bg-card border-2 border-mika-p500 text-mika-p600 dark:text-mika-p400 font-mono text-xs font-bold shadow-xs">
+            <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-bg-card border-2 border-accent text-accent font-mono text-xs font-bold shadow-glow-cyan-sm">
               {step.number || idx + 1}
             </div>
 

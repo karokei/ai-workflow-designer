@@ -82,7 +82,7 @@ export function App() {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[100svh] bg-bg-base text-text-pri font-mono">
-        <div className="w-10 h-10 border-4 border-mika-p500 border-t-transparent rounded-full animate-spin mb-4" />
+        <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin mb-4" />
         <p className="text-xs text-text-sec">Đang tải học viện AI Workflow...</p>
       </div>
     );
@@ -150,7 +150,7 @@ export function App() {
           <div className="lg:hidden flex flex-col gap-6 animate-fade-in">
             {/* User Bio Header */}
             <div className="flex items-center gap-4 bg-bg-card p-4 rounded-xl border border-border">
-              <div className="w-12 h-12 rounded-full bg-mika-p600 text-white flex items-center justify-center font-mono font-bold text-lg shadow-[0_0_12px_rgba(79,70,229,0.3)]">
+              <div className="w-12 h-12 rounded-full bg-accent text-black flex items-center justify-center font-mono font-bold text-lg shadow-glow-cyan-sm">
                 AI
               </div>
               <div className="flex flex-col">
@@ -162,14 +162,14 @@ export function App() {
             {/* Mobile Stats Dashboard */}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-bg-card p-4 rounded-xl border border-border flex flex-col gap-1">
-                <Award className="w-5 h-5 text-mika-a600" />
+                <Award className="w-5 h-5 text-mika-success" />
                 <span className="text-xs text-text-secondary">Tiến độ tổng</span>
                 <span className="text-lg font-bold text-text-primary font-mono">{progressPercent}%</span>
                 <span className="text-[10px] text-text-muted">{completedCount}/{totalLessons} bài học</span>
               </div>
-
+ 
               <div className="bg-bg-card p-4 rounded-xl border border-border flex flex-col gap-1">
-                <Clock className="w-5 h-5 text-mika-p500" />
+                <Clock className="w-5 h-5 text-accent" />
                 <span className="text-xs text-text-secondary">Giờ học tích lũy</span>
                 <span className="text-base font-bold text-text-primary font-mono truncate">
                   {formatTotalTime(cumulativeSeconds)}
@@ -187,7 +187,7 @@ export function App() {
                   onClick={toggleTheme}
                   className="p-2 rounded-lg border border-border bg-bg-secondary text-text-secondary hover:text-text-primary"
                 >
-                  {isDark ? <Sun className="w-4 h-4 text-mika-am600" /> : <Moon className="w-4 h-4 text-mika-p600" />}
+                  {isDark ? <Sun className="w-4 h-4 text-mika-warning" /> : <Moon className="w-4 h-4 text-mika-blue" />}
                 </button>
               </div>
 

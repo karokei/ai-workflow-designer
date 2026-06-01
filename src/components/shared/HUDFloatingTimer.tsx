@@ -47,7 +47,7 @@ export function HUDFloatingTimer({
     <div className="lg:hidden fixed bottom-20 right-4 z-40 flex flex-col items-end gap-2">
       {/* Time Tooltip Bubble */}
       {(showTooltip || timerRunning) && (
-        <div className="px-3 py-1 text-[11px] font-mono font-bold text-text-pri bg-bg-card/90 border border-mika-p500/30 rounded-lg shadow-[0_0_10px_rgba(99,102,241,0.2)] animate-pulse">
+        <div className="px-3 py-1 text-[11px] font-mono font-bold text-text-pri bg-bg-card/90 border border-accent/30 rounded-lg shadow-[0_0_10px_rgba(0,212,255,0.2)] animate-pulse">
           {timerFormatted}
         </div>
       )}
@@ -62,7 +62,7 @@ export function HUDFloatingTimer({
         onMouseLeave={() => setShowTooltip(false)}
         className={`w-12 h-12 rounded-full flex items-center justify-center bg-bg-card/90 border transition-all duration-300 shadow-md ${
           timerRunning
-            ? 'border-mika-p500 text-mika-p500 shadow-[0_0_15px_rgba(99,102,241,0.4)] animate-pulse'
+            ? 'border-accent text-accent shadow-[0_0_15px_rgba(0,212,255,0.4)] animate-pulse'
             : 'border-border text-text-sec hover:text-text-pri hover:bg-bg-secondary'
         }`}
         aria-label="Study Timer Floating Control"
