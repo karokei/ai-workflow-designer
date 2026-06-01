@@ -13,6 +13,7 @@ import {
   BookOpen, 
   Code
 } from 'lucide-react';
+import { useMikaDialog } from '@/hooks/useMikaDialog';
 
 interface ChallengeBlockProps {
   block: ChallengeBlockType;
@@ -25,6 +26,7 @@ export function ChallengeBlock({
   savedResult,
   onSaveResult,
 }: ChallengeBlockProps) {
+  const { showMikaConfirm, showMikaAlert } = useMikaDialog();
   const [code, setCode] = useState<string>(block.initialCode);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showReference, setShowReference] = useState<boolean>(false);
@@ -38,15 +40,22 @@ export function ChallengeBlock({
     }
   }, [savedResult, block.initialCode]);
 
-  const handleReset = () => {
-    if (confirm("Bạn có chắc chắn muốn đặt lại mã nguồn về trạng thái ban đầu?")) {
+  const handleReset = async () => {
+    const approved = await showMikaConfirm(
+      "Đặt lại mã nguồn",
+      "Bạn có chắc chắn muốn đặt lại mã nguồn về trạng thái ban đầu?"
+    );
+    if (approved) {
       setCode(block.initialCode);
     }
   };
 
   const handleGrade = async () => {
     if (!code.trim()) {
-      alert("Vui lòng nhập lời giải trước khi gửi chấm điểm!");
+      await showMikaAlert(
+        "Nhập lời giải",
+        "Vui lòng nhập lời giải trước khi gửi chấm điểm!"
+      );
       return;
     }
 
@@ -56,7 +65,10 @@ export function ChallengeBlock({
       const result = await gradeChallenge(code, block);
       await onSaveResult(result);
     } catch (err: any) {
-      alert(err instanceof Error ? err.message : "Có lỗi xảy ra khi chấm điểm AI.");
+      await showMikaAlert(
+        "Lỗi chấm điểm",
+        err instanceof Error ? err.message : "Có lỗi xảy ra khi chấm điểm AI."
+      );
     } finally {
       setIsLoading(false);
     }

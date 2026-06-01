@@ -1,6 +1,7 @@
 // src/components/shared/HUDFloatingTimer.tsx
 import { useState, useRef } from 'react';
 import { Timer, Pause } from 'lucide-react';
+import { useMikaDialog } from '@/hooks/useMikaDialog';
 
 interface HUDFloatingTimerProps {
   timerFormatted: string;
@@ -17,15 +18,16 @@ export function HUDFloatingTimer({
   pauseTimer,
   resetTimer,
 }: HUDFloatingTimerProps) {
+  const { showMikaAlert } = useMikaDialog();
   const [showTooltip, setShowTooltip] = useState(false);
   const longPressTimerRef = useRef<number | null>(null);
 
   const handleTouchStart = () => {
     // Start long press detection
-    longPressTimerRef.current = window.setTimeout(() => {
+    longPressTimerRef.current = window.setTimeout(async () => {
       resetTimer();
       // Simple haptic feedback simulation or visual notification
-      alert("Đã đặt lại đồng hồ học tập!");
+      await showMikaAlert("Đặt lại đồng hồ", "Đã đặt lại đồng hồ học tập!");
     }, 1000); // 1 second long press to reset
   };
 

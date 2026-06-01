@@ -6,6 +6,16 @@ import { ChallengeBlock } from './ChallengeBlock';
 import type { ChallengeBlock as ChallengeBlockType } from '@/types/curriculum';
 import type { ChallengeResult } from '@/types/progress';
 
+const showMikaConfirmMock = vi.fn(async () => true);
+const showMikaAlertMock = vi.fn(async () => {});
+
+vi.mock('@/hooks/useMikaDialog', () => ({
+  useMikaDialog: () => ({
+    showMikaConfirm: showMikaConfirmMock,
+    showMikaAlert: showMikaAlertMock,
+  }),
+}));
+
 describe('ChallengeBlock Component', () => {
   const mockBlock: ChallengeBlockType = {
     type: 'challenge',
@@ -31,9 +41,9 @@ describe('ChallengeBlock Component', () => {
   beforeEach(() => {
     vi.useFakeTimers();
     onSaveResultMock.mockReset();
-    // Mock window alert/confirm
-    vi.stubGlobal('confirm', vi.fn(() => true));
-    vi.stubGlobal('alert', vi.fn());
+    showMikaConfirmMock.mockReset();
+    showMikaConfirmMock.mockResolvedValue(true);
+    showMikaAlertMock.mockReset();
   });
 
   afterEach(() => {
@@ -74,10 +84,7 @@ describe('ChallengeBlock Component', () => {
     expect(screen.getByText(/Xuất sắc!/)).toBeTruthy();
   });
 
-  it('handles reset confirmation and code reverting', () => {
-    const confirmSpy = vi.fn(() => true);
-    vi.stubGlobal('confirm', confirmSpy);
-
+  it('handles reset confirmation and code reverting', async () => {
     render(
       <ChallengeBlock
         block={mockBlock}
@@ -87,17 +94,16 @@ describe('ChallengeBlock Component', () => {
     );
 
     const resetButton = screen.getByText('RESET');
-    fireEvent.click(resetButton);
+    await act(async () => {
+      fireEvent.click(resetButton);
+    });
 
-    expect(confirmSpy).toHaveBeenCalledWith('Bạn có chắc chắn muốn đặt lại mã nguồn về trạng thái ban đầu?');
+    expect(showMikaConfirmMock).toHaveBeenCalledWith('Đặt lại mã nguồn', 'Bạn có chắc chắn muốn đặt lại mã nguồn về trạng thái ban đầu?');
     // Code should revert to initialCode
     expect(screen.getByDisplayValue('Vai trò: Bạn là trợ lý chốt đơn...')).toBeTruthy();
   });
 
-  it('validates empty inputs before grading', () => {
-    const alertSpy = vi.fn();
-    vi.stubGlobal('alert', alertSpy);
-
+  it('validates empty inputs before grading', async () => {
     render(
       <ChallengeBlock
         block={mockBlock}
@@ -111,9 +117,11 @@ describe('ChallengeBlock Component', () => {
     fireEvent.change(textarea, { target: { value: '   ' } });
 
     const submitBtn = screen.getByText('Chạy thử & Chấm điểm');
-    fireEvent.click(submitBtn);
+    await act(async () => {
+      fireEvent.click(submitBtn);
+    });
 
-    expect(alertSpy).toHaveBeenCalledWith('Vui lòng nhập lời giải trước khi gửi chấm điểm!');
+    expect(showMikaAlertMock).toHaveBeenCalledWith('Nhập lời giải', 'Vui lòng nhập lời giải trước khi gửi chấm điểm!');
     expect(onSaveResultMock).not.toHaveBeenCalled();
   });
 

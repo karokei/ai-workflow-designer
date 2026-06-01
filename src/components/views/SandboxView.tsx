@@ -1,5 +1,6 @@
 // src/components/views/SandboxView.tsx
 import { useState, useEffect, useRef } from 'react';
+import { useMikaDialog } from '@/hooks/useMikaDialog';
 import { 
   Webhook, 
   BrainCircuit, 
@@ -277,6 +278,7 @@ const TEMPLATES: Record<string, PredefinedTemplate> = {
 };
 
 export function SandboxView() {
+  const { showMikaConfirm } = useMikaDialog();
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string>("leadClassifier");
   const [nodes, setNodes] = useState<NodeInstance[]>(TEMPLATES.leadClassifier.nodes);
   const [connections, setConnections] = useState<Connection[]>(TEMPLATES.leadClassifier.connections);
@@ -428,8 +430,12 @@ export function SandboxView() {
     runNextNode();
   };
 
-  const handleReset = () => {
-    if (confirm("Bạn có chắc chắn muốn đặt lại Canvas và danh sách chạy thử?")) {
+  const handleReset = async () => {
+    const approved = await showMikaConfirm(
+      "Đặt lại Canvas",
+      "Bạn có chắc chắn muốn đặt lại Canvas và danh sách chạy thử về trạng thái ban đầu?"
+    );
+    if (approved) {
       const defaultT = TEMPLATES[selectedTemplateKey];
       setNodes(defaultT.nodes);
       setConnections(defaultT.connections);

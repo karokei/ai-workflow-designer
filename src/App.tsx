@@ -13,6 +13,7 @@ import { SandboxView } from '@/components/views/SandboxView';
 import { CURRICULUM } from '@/data/curriculum';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Award, Clock, Moon, Sun, Trash2 } from 'lucide-react';
+import { useMikaDialog } from '@/hooks/useMikaDialog';
 
 export function App() {
   const {
@@ -27,6 +28,7 @@ export function App() {
   } = useProgress();
 
   const { toggleTheme, isDark } = useTheme();
+  const { showMikaConfirm, showMikaAlert } = useMikaDialog();
   const {
     seconds: timerSeconds,
     isRunning: timerRunning,
@@ -200,11 +202,18 @@ export function App() {
                     <span className="text-[10px] text-text-muted">Xóa toàn bộ tiến trình học tập & ghi chú</span>
                   </div>
                   <button
-                    onClick={() => {
-                      if (confirm("Bạn có chắc chắn muốn xóa toàn bộ tiến độ học tập và ghi chú? Hành động này không thể hoàn tác.")) {
+                    onClick={async () => {
+                      const approved = await showMikaConfirm(
+                        "Khởi động lại khóa học",
+                        "Bạn có chắc chắn muốn xóa toàn bộ tiến độ học tập và ghi chú? Hành động này không thể hoàn tác."
+                      );
+                      if (approved) {
                         void resetProgress();
                         resetTimer();
-                        alert("Đã xóa toàn bộ tiến trình thành công!");
+                        await showMikaAlert(
+                          "Thành công",
+                          "Đã xóa toàn bộ tiến trình thành công!"
+                        );
                       }
                     }}
                     className="p-2 rounded-lg border border-mika-r600/30 bg-mika-r50 text-mika-r600 hover:bg-mika-r50/85 transition-colors"
