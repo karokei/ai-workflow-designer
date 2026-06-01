@@ -755,118 +755,118 @@ export function SandboxView() {
       {/* ─────────────────────────────────────────────────────────────────
           RIGHT SIDEBAR PANEL: Config Panel & JSON Execution Logs Tables
           ───────────────────────────────────────────────────────────────── */}
-      <div className="w-full lg:w-96 flex-shrink-0 flex flex-col gap-4">
+      <div className="w-full lg:w-96 flex-shrink-0 flex flex-col gap-5">
         
         {/* Node Properties Configurations Panel */}
-        <section className="bg-bg-card border border-border p-4.5 rounded-2xl shadow-xs">
-          <div className="flex items-center gap-2 border-b border-border-light pb-2.5 mb-3.5">
+        <section className="bg-bg-card border border-border p-6 rounded-xl shadow-xs">
+          <div className="flex items-center gap-2 border-b border-border-light pb-3.5 mb-5">
             <SlidersHorizontal className="w-4 h-4 text-accent" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-text-primary">Cấu hình Node Tham Số</h3>
           </div>
 
           {selectedNode ? (
-            <div className="flex flex-col gap-3.5 animate-fade-in select-text">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold text-text-primary tracking-tight">
+            <div className="flex flex-col gap-5 animate-fade-in select-text">
+              <div className="flex items-center justify-between border-b border-slate-800/40 pb-2">
+                <span className="text-xs font-black uppercase tracking-wider text-accent">
                   {selectedNode.name}
                 </span>
-                <span className="text-[9px] font-bold uppercase font-mono px-2 py-0.5 border border-border bg-bg-secondary text-text-muted rounded">
+                <span className="mika-badge mika-badge-cyan text-[9px] px-2.5 py-0.5 font-mono">
                   {selectedNode.type}
                 </span>
               </div>
 
               {/* Dynamic configuration inputs based on node type */}
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-4.5">
                 {selectedNode.type === 'webhook' && (
                   <>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-[10px] font-bold uppercase text-text-muted">Webhook Endpoint</label>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Webhook Endpoint</label>
                       <input 
                         type="text" 
                         value={selectedNode.config.url}
                         readOnly 
-                        className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-full"
+                        className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-full transition-all"
                       />
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-[10px] font-bold uppercase text-text-muted">HTTP Method</label>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">HTTP Method</label>
                       <input 
                         type="text" 
                         value={selectedNode.config.method}
                         readOnly 
-                        className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-40"
+                        className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-40 transition-all"
                       />
                     </div>
                   </>
                 )}
 
                 {selectedNode.type === 'cron' && (
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[10px] font-bold uppercase text-text-muted">Cron Expression</label>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Cron Expression</label>
                     <input 
                       type="text" 
                       value={selectedNode.config.schedule}
                       readOnly 
-                      className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-full"
+                      className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-full transition-all"
                     />
                   </div>
                 )}
 
                 {selectedNode.type === 'openai' && (
                   <>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-[10px] font-bold uppercase text-text-muted">AI Model</label>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">AI Model</label>
                       <input 
                         type="text" 
                         value={selectedNode.config.model}
                         readOnly 
-                        className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-full"
+                        className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-full transition-all"
                       />
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-[10px] font-bold uppercase text-text-muted">System Prompt Template</label>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">System Prompt Template</label>
                       <textarea 
                         rows={4}
                         value={selectedNode.config.prompt}
                         readOnly 
-                        className="bg-bg-secondary border border-border text-xs p-3 rounded-lg text-text-secondary focus:outline-none font-mono leading-relaxed cursor-not-allowed resize-none w-full"
+                        className="bg-bg-base border border-border-accent text-sm p-3.5 rounded-lg text-text-primary focus:outline-none font-mono leading-relaxed cursor-not-allowed resize-none w-full transition-all"
                       />
                     </div>
-                    <div className="flex items-center justify-between border-t border-border-light pt-2">
-                      <span className="text-[10px] font-bold uppercase text-text-muted">Temperature</span>
-                      <span className="text-xs font-mono font-bold text-indigo-500">{selectedNode.config.temperature}</span>
+                    <div className="flex items-center justify-between border-t border-border-light pt-3 mt-1">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Temperature</span>
+                      <span className="text-xs font-mono font-bold text-indigo-400">{selectedNode.config.temperature}</span>
                     </div>
                   </>
                 )}
 
                 {selectedNode.type === 'if' && (
                   <>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-[10px] font-bold uppercase text-text-muted">Field to Compare</label>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Field to Compare</label>
                       <input 
                         type="text" 
                         value={selectedNode.config.field}
                         readOnly 
-                        className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-full"
+                        className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-full transition-all"
                       />
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold uppercase text-text-muted">Operator</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Operator</label>
                         <input 
                           type="text" 
                           value={selectedNode.config.operator}
                           readOnly 
-                          className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-full"
+                          className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-full transition-all"
                         />
                       </div>
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold uppercase text-text-muted">Value</label>
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Value</label>
                         <input 
                           type="text" 
                           value={selectedNode.config.value}
                           readOnly 
-                          className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-full"
+                          className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-full transition-all"
                         />
                       </div>
                     </div>
@@ -875,22 +875,22 @@ export function SandboxView() {
 
                 {selectedNode.type === 'telegram' && (
                   <>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-[10px] font-bold uppercase text-text-muted">Chat ID</label>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Chat ID</label>
                       <input 
                         type="text" 
                         value={selectedNode.config.chatId}
                         readOnly 
-                        className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-full"
+                        className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-full transition-all"
                       />
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-[10px] font-bold uppercase text-text-muted">Message Template</label>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Message Template</label>
                       <textarea 
                         rows={3}
                         value={selectedNode.config.template}
                         readOnly 
-                        className="bg-bg-secondary border border-border text-xs p-3 rounded-lg text-text-secondary focus:outline-none font-mono leading-relaxed cursor-not-allowed resize-none w-full"
+                        className="bg-bg-base border border-border-accent text-sm p-3.5 rounded-lg text-text-primary focus:outline-none font-mono leading-relaxed cursor-not-allowed resize-none w-full transition-all"
                       />
                     </div>
                   </>
@@ -898,34 +898,34 @@ export function SandboxView() {
 
                 {selectedNode.type === 'sheets' && (
                   <>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold uppercase text-text-muted">Sheet Name</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Sheet Name</label>
                         <input 
                           type="text" 
                           value={selectedNode.config.sheetName}
                           readOnly 
-                          className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-full"
+                          className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-full transition-all"
                         />
                       </div>
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold uppercase text-text-muted">Spreadsheet ID</label>
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Spreadsheet ID</label>
                         <input 
                           type="text" 
                           value={selectedNode.config.spreadsheetId || "Default"}
                           readOnly 
-                          className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-full"
+                          className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-full transition-all"
                         />
                       </div>
                     </div>
                     {selectedNode.config.columns && (
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[10px] font-bold uppercase text-text-muted">Columns to append</label>
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[10px] font-black uppercase tracking-wider text-text-secondary">Columns to append</label>
                         <input 
                           type="text" 
                           value={selectedNode.config.columns}
                           readOnly 
-                          className="bg-bg-secondary border border-border text-xs px-3 py-2 rounded-lg text-text-secondary focus:outline-none font-mono cursor-not-allowed w-full"
+                          className="bg-bg-base border border-border-accent text-sm px-3.5 py-2.5 rounded-lg text-text-primary focus:outline-none font-mono cursor-not-allowed w-full transition-all"
                         />
                       </div>
                     )}
@@ -934,43 +934,43 @@ export function SandboxView() {
               </div>
             </div>
           ) : (
-            <div className="text-center py-6 border border-dashed border-border rounded-xl">
+            <div className="text-center py-8 border border-dashed border-border rounded-xl">
               <Info className="w-5 h-5 text-text-muted mx-auto mb-2" />
-              <span className="text-[11px] text-text-muted">Click chọn một Node trên Canvas để xem chi tiết tham số cấu hình.</span>
+              <span className="text-xs text-text-secondary">Click chọn một Node trên Canvas để xem chi tiết tham số cấu hình.</span>
             </div>
           )}
         </section>
 
         {/* Execution Runs Logs Terminal */}
-        <section className="bg-bg-card border border-border p-4.5 rounded-2xl shadow-xs flex-1 flex flex-col min-h-[220px]">
-          <div className="flex items-center justify-between border-b border-border-light pb-2.5 mb-3">
+        <section className="bg-bg-card border border-border p-6 rounded-xl shadow-xs flex-1 flex flex-col min-h-[220px]">
+          <div className="flex items-center justify-between border-b border-border-light pb-3.5 mb-4">
             <div className="flex items-center gap-2">
               <Terminal className="w-4 h-4 text-accent" />
               <h3 className="text-xs font-bold uppercase tracking-wider text-text-primary">Nhật Ký Thực Thi (JSON Logs)</h3>
             </div>
             {runs.length > 0 && (
-              <span className="text-[9px] font-bold px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 rounded">
+              <span className="mika-badge mika-badge-success text-[9px] px-2.5 py-0.5 font-mono">
                 ACTIVE
               </span>
             )}
           </div>
 
-          <div className="flex flex-col gap-3 flex-1 min-h-0">
+          <div className="flex flex-col gap-4.5 flex-1 min-h-0">
             {/* Logs entries index */}
-            <div className="flex flex-col gap-1.5 max-h-[140px] overflow-y-auto pr-1">
+            <div className="flex flex-col gap-2 max-h-[140px] overflow-y-auto pr-1">
               {runs.map((run, idx) => {
                 const isActive = activeRunIndex === idx;
                 return (
                   <button
                     key={idx}
                     onClick={() => setActiveRunIndex(idx)}
-                    className={`flex items-center justify-between w-full p-2 rounded-lg border text-left transition-all ${
+                    className={`flex items-center justify-between w-full p-2.5 rounded-lg border text-left transition-all ${
                       isActive 
                         ? 'border-accent/30 bg-accent/5 dark:bg-accent/5' 
                         : 'border-border bg-bg-secondary/40 hover:bg-bg-secondary'
                     }`}
                   >
-                    <div className="flex items-center gap-2 min-w-0">
+                    <div className="flex items-center gap-2.5 min-w-0">
                       {run.status === 'success' ? (
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
                       ) : (
@@ -995,16 +995,16 @@ export function SandboxView() {
 
             {/* Selected Run Details JSON terminal view */}
             {activeRunIndex !== null && runs[activeRunIndex] && (
-              <div className="flex-1 min-h-[160px] max-h-[220px] overflow-y-auto bg-slate-900 border border-slate-800 rounded-xl p-3 flex flex-col gap-2.5 select-text">
-                <span className="text-[8.5px] font-bold font-mono text-slate-400 uppercase tracking-widest block border-b border-slate-800 pb-1">
+              <div className="flex-1 min-h-[160px] max-h-[220px] overflow-y-auto bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col gap-3 select-text">
+                <span className="text-[8.5px] font-bold font-mono text-slate-400 uppercase tracking-widest block border-b border-slate-800 pb-1.5">
                   🌐 Payload Hops (Dữ liệu truyền qua các Node):
                 </span>
                 
-                <div className="flex flex-col gap-3 font-mono text-[9px] leading-relaxed text-slate-200">
+                <div className="flex flex-col gap-3.5 font-mono text-[9px] leading-relaxed text-slate-200">
                   {runs[activeRunIndex].logs.map((log: any, lIdx: number) => (
                     <div key={lIdx} className="flex flex-col gap-1 border-l-2 border-slate-700 pl-2">
                       <span className="text-[9px] font-bold text-accent">{log.node}</span>
-                      <div className="flex flex-col gap-0.5 text-[8.5px] text-slate-300">
+                      <div className="flex flex-col gap-1 text-[8.5px] text-slate-300">
                         {Object.keys(log.input).length > 0 && (
                           <div>
                             <span className="text-slate-500">Input:</span>{" "}
