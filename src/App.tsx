@@ -12,6 +12,7 @@ import { SearchView } from '@/components/views/SearchView';
 import { SandboxView } from '@/components/views/SandboxView';
 import { CURRICULUM } from '@/data/curriculum';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { PWAInstallBanner } from '@/components/shared/PWAInstallBanner';
 import { Award, Clock, Moon, Sun, Trash2 } from 'lucide-react';
 import { useMikaDialog } from '@/hooks/useMikaDialog';
 
@@ -237,6 +238,9 @@ export function App() {
           resetTimer={resetTimer}
         />
       )}
+
+      {/* PWA Install Prompt Banner (mobile) */}
+      <PWAInstallBanner />
 
       {/* Mobile HUD Bottom Navigation Bar */}
       <BottomNav currentView={currentView} setCurrentView={setCurrentView} />
